@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.8
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NostalgiPizza", "NostalgiPizza\NostalgiPizza.csproj", "{4731B664-9C27-4732-92F4-1D9E11AA97E2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4731B664-9C27-4732-92F4-1D9E11AA97E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4731B664-9C27-4732-92F4-1D9E11AA97E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4731B664-9C27-4732-92F4-1D9E11AA97E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4731B664-9C27-4732-92F4-1D9E11AA97E2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AB63114D-08EA-44AD-AF6F-E5FE142E7E52}
+	EndGlobalSection
+EndGlobal

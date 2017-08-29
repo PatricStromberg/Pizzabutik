@@ -1,0 +1,14 @@
+﻿@{
+    Layout = "_AdminLayout";
+}
+
+<div class="login-page">
+    <div class="form">
+        <form asp-controller="Home" asp-action="LogIn" class="login-form">
+            <input asp-for="Email" placeholder="username" />
+            <input asp-for="Password" placeholder="password" />
+            <button type="submit">login</button>
+            <p class="message">Not registered? <a href="#">Create an account</a></p>
+        </form>
+    </div>
+</div>
