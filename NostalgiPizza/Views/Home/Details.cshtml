@@ -3,24 +3,8 @@
 @model NostalgiPizza.Models.DetailsViewModel
 
 @{
-    Layout = null;
+    Layout = "_EditLayout";
 }
-
-
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel='stylesheet' type='text/css'>
-    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic" rel='stylesheet' type='text/css'>
-    
-    <link href="~/css/site.css" rel="stylesheet" />
-
-</head>
-<body>
 
 <div class="edit-page">
     <div class="wrapper">
@@ -39,17 +23,17 @@
                     <tr>
                         <td class="text-left">@d.Name</td>
                         @{
-                            var ingredientsList = new List<string>();
-                            foreach (var di in d.DishIngredients)
+                            var ingredientsList = d.DishIngredients.Select(di => di.Ingredient.Name).ToList();
+                            var result = "";
+                            if (ingredientsList != null)
                             {
-                                ingredientsList.Add(di.Ingredient.Name);
+                                result = string.Join(", ", ingredientsList.Take(ingredientsList.Count - 1)) + (ingredientsList.Count <= 1 ? "" : " & ") + ingredientsList.LastOrDefault();
                             }
-                            string result = string.Join(", ", ingredientsList.Take(ingredientsList.Count - 1)) + (ingredientsList.Count <= 1 ? "" : " & ") + ingredientsList.LastOrDefault();
                         }
                         <td class="text-left">@result</td>
                         <td>@d.Price</td>
-                        <td><a class="btn btn-success" asp-action="Edit" asp-route-id="@d.Id"><i class="fa fa-fw fa-pencil-square-o"></i></a></td>
-                        <td><a class="btn btn-danger" asp-action="Delete" asp-route-id="@d.Id"><i class="fa fa-fw fa-trash-o"></i></a></td>
+                        <td><a class="button button-green" asp-action="Edit" asp-route-id="@d.DishId"><i class="fa fa-fw fa-pencil-square-o"></i></a></td>
+                        <td><a class="button button-red" asp-action="Delete" asp-route-id="@d.DishId"><i class="fa fa-fw fa-trash-o"></i></a></td>
 
 
                     </tr>
@@ -58,14 +42,8 @@
                 </tbody>
             </table>
         </div>
-        <a asp-controller="Home" asp-action="Index">Back</a>
+        <a class="button button-orange" asp-controller="Home" asp-action="Index">Back</a>
+        <a class="button button-green pull-right" asp-controller="Home" asp-action="Create"><i class="fa fa-plus"></i> Add</a>
     </div>
     
 </div>
-    
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-</body>
-</html>
-

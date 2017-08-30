@@ -7,8 +7,9 @@ namespace NostalgiPizza.Models
 {
     public class Ingredient
     {
-        public int Id { get; set; }
+        public int IngredientId { get; set; }
         public string Name { get; set; }
         public List<DishIngredient> DishIngredients { get; set; }
+        public bool Enable { get; set; }
     }
 }
