@@ -69,7 +69,37 @@ namespace NostalgiPizza.Controllers
 
         public IActionResult Details()
         {
-            return View();
+            var dishes = _applicationDbContext.Dishes.Include(d => d.DishIngredients)
+                .ThenInclude(di => di.Ingredient)
+                .ToList();
+
+            var model = new DetailsViewModel
+            {
+                Dishes = dishes
+            };
+
+            return View(model);
+        }
+
+        public IActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var dish = _applicationDbContext.Dishes
+                .SingleOrDefault(d => d.Id == id);
+            
+            if (dish == null)
+            {
+                return NotFound();
+            }
+
+            _applicationDbContext.Dishes.Remove(dish);
+            _applicationDbContext.SaveChangesAsync();
+
+            return RedirectToAction("Details");
         }
     }
 }

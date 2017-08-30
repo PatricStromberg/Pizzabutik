@@ -1,35 +1,44 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+    font-family: 'Merriweather', 'Helvetica Neue', Arial, sans-serif;
+    background: #DCDCDC; /* fallback for old browsers */
+    background: -webkit-linear-gradient(right, #DCDCDC, #D3D3D3);
+    background: -moz-linear-gradient(right, #DCDCDC, #D3D3D3);
+    background: -o-linear-gradient(right, #DCDCDC, #D3D3D3);
+    background: linear-gradient(to left, #DCDCDC, #D3D3D3);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+.edit-page {
+    padding: 8% 0 0;
+    margin: auto;
 }
 
-/* Carousel */
-.carousel-caption p {
-    font-size: 20px;
-    line-height: 1.4;
+.wrapper {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    max-width: 90%;
+    margin: 0 auto 100px;
+    padding: 45px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
-/* Make .svg files in the carousel display properly in older browsers */
-.carousel-inner .item img[src$=".svg"] {
-    width: 100%;
+.wrapper button {
+    text-transform: uppercase;
+    outline: 0;
+    background: #F05F40;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+}
+.wrapper button:hover, .form button:active, .form button:focus {
+    background: #e13612;
 }
 
-/* QR code generator */
-#qrCode {
-    margin: 15px;
-}
 
-/* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
-    /* Hide captions */
-    .carousel-caption {
-        display: none;
-    }
-}

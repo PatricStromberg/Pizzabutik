@@ -1,14 +1,71 @@
-﻿@{
-    Layout = "_AdminLayout";
+﻿@using System.Collections.Generic
+@using System.Linq
+@model NostalgiPizza.Models.DetailsViewModel
+
+@{
+    Layout = null;
 }
 
-<div class="login-page">
-    <div class="form">
-        <form asp-controller="Home" asp-action="LogIn" class="login-form">
-            <input asp-for="Email" placeholder="username" />
-            <input asp-for="Password" placeholder="password" />
-            <button type="submit">login</button>
-            <p class="message">Not registered? <a href="#">Create an account</a></p>
-        </form>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic" rel='stylesheet' type='text/css'>
+    
+    <link href="~/css/site.css" rel="stylesheet" />
+
+</head>
+<body>
+
+<div class="edit-page">
+    <div class="wrapper">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Ingredients</th>
+                    <th>Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var d in Model.Dishes)
+                {
+                    <tr>
+                        <td class="text-left">@d.Name</td>
+                        @{
+                            var ingredientsList = new List<string>();
+                            foreach (var di in d.DishIngredients)
+                            {
+                                ingredientsList.Add(di.Ingredient.Name);
+                            }
+                            string result = string.Join(", ", ingredientsList.Take(ingredientsList.Count - 1)) + (ingredientsList.Count <= 1 ? "" : " & ") + ingredientsList.LastOrDefault();
+                        }
+                        <td class="text-left">@result</td>
+                        <td>@d.Price</td>
+                        <td><a class="btn btn-success" asp-action="Edit" asp-route-id="@d.Id"><i class="fa fa-fw fa-pencil-square-o"></i></a></td>
+                        <td><a class="btn btn-danger" asp-action="Delete" asp-route-id="@d.Id"><i class="fa fa-fw fa-trash-o"></i></a></td>
+
+
+                    </tr>
+                }
+
+                </tbody>
+            </table>
+        </div>
+        <a asp-controller="Home" asp-action="Index">Back</a>
     </div>
+    
 </div>
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+
