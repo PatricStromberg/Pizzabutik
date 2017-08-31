@@ -8,5 +8,7 @@ namespace NostalgiPizza.Models
     public class DetailsViewModel
     {
         public List<Dish> Dishes { get; set; }
+        public List<Category> Categories { get; set; }
+        public List<Ingredient> Ingredients { get; set; }
     }
 }

@@ -25,54 +25,19 @@
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
-    .button {
-        display: inline-block;
-        text-transform: uppercase;
-        outline: 0;
-        /*background: #F05F40;*/
-        border: 0;
-        padding: 15px;
-        color: #FFFFFF;
-        font-size: 14px;
-        -webkit-transition: all 0.3 ease;
-        transition: all 0.3 ease;
-        cursor: pointer;
-    }
-
-/*.btn:hover {
-     background: #e13612;
-}*/
-
-    .button-green {
-        background: #28a745;
-
-    }
-
-        .button-green:hover {
-            background: #218838;
-            color: #FFFFFF;
-            text-decoration: none;
-        }
-
-.button-orange {
+.button {
+    display: inline-block;
+    text-transform: uppercase;
+    outline: 0;
     background: #F05F40;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
 }
-
-    .button-orange:hover {
-        background: #e13612;
-        color: #FFFFFF;
-        text-decoration: none;
-    }
-
-.button-red {
-    background: #dc3545;
-}
-
-    .button-red:hover {
-        background: #c82333;
-        color: #FFFFFF;
-        text-decoration: none;
-    }
 
 .form {
     position: relative;
@@ -85,7 +50,7 @@
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
-    .form input, .form select {
+    .form input[type=text], .form input[type=number], .form select {
         outline: 0;
         background: #f2f2f2;
         width: 100%;

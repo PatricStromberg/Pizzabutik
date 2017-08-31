@@ -41,16 +41,16 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                @if (User.IsInRole("Admin"))
-                {
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Home" asp-action="Details">Details</a>
-                    </li>
-                }
                 @if (SignInManager.IsSignedIn(User))
                 {
                     <li class="nav-item">
                         <a class="nav-link">@UserManager.GetUserName(User)</a>
+                    </li>
+                }
+                @if (User.IsInRole("Admin"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Details">Administration</a>
                     </li>
                 }
                 <li class="nav-item">

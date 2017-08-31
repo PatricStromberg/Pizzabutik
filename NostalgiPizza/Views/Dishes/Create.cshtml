@@ -1,0 +1,29 @@
+﻿@model NostalgiPizza.Models.CreateViewModel
+
+@{
+    Layout = "_EditLayout";
+}
+
+<div class="edit-page">
+    <div class="form">
+        <form asp-action="Create" method="post">
+            <select asp-for="@Model.CategoryId" asp-items="@Model.CategoryList">
+                <option>Category</option>
+            </select>
+            <input asp-for="@Model.Name" placeholder="name" />
+            <input asp-for="@Model.Price" placeholder="price" />
+            <div class="text-left">
+                @foreach (var ingredient in Model.IngredientList)
+                {
+                    <div class="checkbox">
+                        <label asp-for="@ingredient.Enable"><input type="checkbox" asp-for="@ingredient.Enable" />@ingredient.Name</label>
+                        <input type="hidden" asp-for="@ingredient.Name" />
+                        <input type="hidden" asp-for="@ingredient.IngredientId" />
+                    </div>
+                }
+            </div>
+
+            <button type="submit">create</button>
+        </form>
+    </div>
+</div>

@@ -1,5 +1,4 @@
-﻿@using System.Collections.Generic
-@using System.Linq
+﻿@using System.Linq
 @model NostalgiPizza.Models.DetailsViewModel
 
 @{
@@ -8,42 +7,106 @@
 
 <div class="edit-page">
     <div class="wrapper">
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Ingredients</th>
-                    <th>Price</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach (var d in Model.Dishes)
-                {
-                    <tr>
-                        <td class="text-left">@d.Name</td>
-                        @{
-                            var ingredientsList = d.DishIngredients.Select(di => di.Ingredient.Name).ToList();
-                            var result = "";
-                            if (ingredientsList != null)
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#category">Categories</a></li>
+            <li><a data-toggle="tab" href="#dish">Dishes</a></li>
+            <li><a data-toggle="tab" href="#ingrediet">Ingredients</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="category" class="tab-pane fade in active">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var c in Model.Categories)
                             {
-                                result = string.Join(", ", ingredientsList.Take(ingredientsList.Count - 1)) + (ingredientsList.Count <= 1 ? "" : " & ") + ingredientsList.LastOrDefault();
+                                <tr>
+                                    <td class="text-left" style="width: 90%">@c.Name</td>
+                                    <td><a class="btn btn-success" asp-controller="Categories" asp-action="Edit" asp-route-id="@c.CategoryId"><i class="fa fa-fw fa-pencil-square-o"></i></a></td>
+                                    <td><a class="btn btn-danger" asp-controller="Categories" asp-action="Delete" asp-route-id="@c.CategoryId"><i class="fa fa-fw fa-trash-o"></i></a></td>
+                                </tr>
                             }
-                        }
-                        <td class="text-left">@result</td>
-                        <td>@d.Price</td>
-                        <td><a class="button button-green" asp-action="Edit" asp-route-id="@d.DishId"><i class="fa fa-fw fa-pencil-square-o"></i></a></td>
-                        <td><a class="button button-red" asp-action="Delete" asp-route-id="@d.DishId"><i class="fa fa-fw fa-trash-o"></i></a></td>
+
+                        </tbody>
+                    </table>
+                </div>
+                <a class="btn btn-success pull-right" asp-controller="Categories" asp-action="Create"><i class="fa fa-plus"></i> Add</a>
+            </div>
+            <div id="dish" class="tab-pane fade">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Ingredients</th>
+                                <th>Price</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var d in Model.Dishes)
+                            {
+                                <tr>
+                                    <td class="text-left">@d.Name</td>
+                                    @{
+                                        var ingredientsList = d.DishIngredients.Select(di => di.Ingredient.Name).ToList();
+                                        var result = "";
+                                        if (ingredientsList != null)
+                                        {
+                                            result = string.Join(", ", ingredientsList.Take(ingredientsList.Count - 1)) + (ingredientsList.Count <= 1 ? "" : " & ") + ingredientsList.LastOrDefault();
+                                        }
+                                    }
+                                    <td class="text-left">@result</td>
+                                    <td>@d.Price</td>
+                                    <td><a class="btn btn-success" asp-controller="Dishes" asp-action="Edit" asp-route-id="@d.DishId"><i class="fa fa-fw fa-pencil-square-o"></i></a></td>
+                                    <td><a class="btn btn-danger" asp-controller="Dishes" asp-action="Delete" asp-route-id="@d.DishId"><i class="fa fa-fw fa-trash-o"></i></a></td>
 
 
-                    </tr>
-                }
+                                </tr>
+                            }
 
-                </tbody>
-            </table>
+                        </tbody>
+                    </table>
+                </div>
+                <a class="btn btn-success pull-right" asp-controller="Dishes" asp-action="Create"><i class="fa fa-plus"></i> Add</a>
+            </div>
+            <div id="ingrediet" class="tab-pane fade">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var i in Model.Ingredients)
+                            {
+                                <tr>
+                                    <td class="text-left" style="width: 90%">@i.Name</td>
+                                    <td><a class="btn btn-success" asp-controller="Ingredients" asp-action="Edit" asp-route-id="@i.IngredientId"><i class="fa fa-fw fa-pencil-square-o"></i></a></td>
+                                    <td><a class="btn btn-danger" asp-controller="Ingredients" asp-action="Delete" asp-route-id="@i.IngredientId"><i class="fa fa-fw fa-trash-o"></i></a></td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+                <a class="btn btn-success pull-right" asp-controller="Ingredients" asp-action="Create"><i class="fa fa-plus"></i> Add</a>
+            </div>
         </div>
-        <a class="button button-orange" asp-controller="Home" asp-action="Index">Back</a>
-        <a class="button button-green pull-right" asp-controller="Home" asp-action="Create"><i class="fa fa-plus"></i> Add</a>
+        <a class="btn btn-default" asp-controller="Home" asp-action="Index">Back</a>
+
+
     </div>
-    
+
 </div>
