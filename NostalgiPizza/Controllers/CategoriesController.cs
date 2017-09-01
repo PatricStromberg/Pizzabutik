@@ -39,53 +39,40 @@ namespace NostalgiPizza.Controllers
 
             return RedirectToAction("Details", "Home");
         }
-        
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
 
-        //    var category = await _applicationDbContext.Categories.SingleOrDefaultAsync(m => m.CategoryId == id);
-        //    if (category == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(category);
-        //}
+        public IActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Edit(int id, [Bind("CategoryId,Name")] Category category)
-        //{
-        //    if (id != category.CategoryId)
-        //    {
-        //        return NotFound();
-        //    }
+            var category = _applicationDbContext.Categories.SingleOrDefault(m => m.CategoryId == id);
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(category);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!CategoryExists(category.CategoryId))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(category);
-        //}
-        
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            var model = new EditViewModel
+            {
+                Category = category
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(EditViewModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            _applicationDbContext.Update(model.Category);
+            _applicationDbContext.SaveChanges();
+                
+            return RedirectToAction("Details", "Home");
+        }
+
         public IActionResult Delete(int? id)
         {
             if (id == null)

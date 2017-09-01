@@ -1,50 +1,37 @@
-﻿@model NostalgiPizza.Models.Dish
+﻿@model NostalgiPizza.Models.EditViewModel
 
 @{
-    Layout = null;
+    Layout = "_EditLayout";
 }
 
-<!DOCTYPE html>
+<div class="edit-page">
+    <div class="form">
+        <form asp-action="Edit" method="post">
+            <input asp-for="@Model.Dish.Name" placeholder="name" />
+            <input type="hidden" asp-for="@Model.Dish.DishId" />
+            <input asp-for="@Model.Dish.Price" placeholder="price" />
+            <div class="text-left">
+                @for (var di = 0; di < Model.DishIngredients.Count; di++)
+                {
+                    <div class="checkbox">
+                        <label asp-for="@Model.DishIngredients[di].Ingredient.Enable">
+                            <input type="checkbox" asp-for="@Model.DishIngredients[di].Ingredient.Enable" checked/>@Model.DishIngredients[di].Ingredient.Name</label>
+                        <input type="hidden" asp-for="@Model.DishIngredients[di].Ingredient.Name"/>
+                        <input type="hidden" asp-for="@Model.DishIngredients[di].Ingredient.IngredientId"/>
+                    </div>
+                }
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Edit</title>
-</head>
-<body>
-
-<h4>Dish</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="DishId" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                @for (var ai = 0; ai < Model.AllIngredients.Count; ai++)
+                {
+                    <div class="checkbox">
+                        <label asp-for="@Model.AllIngredients[ai].Enable">
+                            <input type="checkbox" asp-for="@Model.AllIngredients[ai].Enable"/>@Model.AllIngredients[ai].Name</label>
+                        <input type="hidden" asp-for="@Model.AllIngredients[ai].Name"/>
+                        <input type="hidden" asp-for="@Model.AllIngredients[ai].IngredientId"/>
+                    </div>
+                }
             </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
+            <button type="submit">save</button>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-</body>
-</html>

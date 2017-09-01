@@ -43,41 +43,39 @@ namespace NostalgiPizza.Controllers
             return RedirectToAction("Details", "Home");
         }
 
-        //// POST: Ingredients/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("IngredientId,Name,Enable")] Ingredient ingredient)
-        //{
-        //    if (id != ingredient.IngredientId)
-        //    {
-        //        return NotFound();
-        //    }
+        public IActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(ingredient);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!IngredientExists(ingredient.IngredientId))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(ingredient);
-        //}
-        
+            var ingredient = _applicationDbContext.Ingredients.SingleOrDefault(m => m.IngredientId == id);
+
+            if (ingredient == null)
+            {
+                return NotFound();
+            }
+
+            var model = new EditViewModel
+            {
+                Ingredient = ingredient
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(EditViewModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            _applicationDbContext.Update(model.Ingredient);
+            _applicationDbContext.SaveChanges();
+
+            return RedirectToAction("Details", "Home");
+        }
+
         public IActionResult Delete(int? id)
         {
             if (id == null)

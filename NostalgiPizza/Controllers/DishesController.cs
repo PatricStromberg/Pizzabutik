@@ -74,59 +74,73 @@ namespace NostalgiPizza.Controllers
             return RedirectToAction("Details", "Home");
         }
 
-        //// GET: Dishes/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public IActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var dish = await _context.Dishes.SingleOrDefaultAsync(m => m.DishId == id);
-        //    if (dish == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", dish.CategoryId);
-        //    return View(dish);
-        //}
+            var dish = _applicationDbContext.Dishes.Include(d => d.DishIngredients)
+                .ThenInclude(di => di.Ingredient)
+                .SingleOrDefault(d => d.DishId == id);
 
-        //// POST: Dishes/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("DishId,Name,Price,CategoryId")] Dish dish)
-        //{
-        //    if (id != dish.DishId)
-        //    {
-        //        return NotFound();
-        //    }
+            if (dish == null)
+            {
+                return NotFound();
+            }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(dish);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!DishExists(dish.DishId))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", dish.CategoryId);
-        //    return View(dish);
-        //}
-        
+            var dishIngredients = dish.DishIngredients.ToList();
+
+            var allIngredients = _applicationDbContext.Ingredients.ToList();
+
+            allIngredients.RemoveAll(x => dishIngredients.Exists(y => y.IngredientId == x.IngredientId));
+
+            var model = new EditViewModel
+            {
+                Dish = dish,
+                DishIngredients = dishIngredients,
+                AllIngredients = allIngredients
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(EditViewModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            var dishToUpdate = _applicationDbContext.Dishes.SingleOrDefault(d => d.DishId == model.Dish.DishId);
+            dishToUpdate.DishIngredients = new List<DishIngredient>();
+
+            foreach (var di in model.DishIngredients)
+            {
+                if (di.Ingredient.Enable)
+                {
+                    dishToUpdate.DishIngredients.Add(di);
+                }
+            }
+
+            foreach (var ai in model.AllIngredients)
+            {
+                if (ai.Enable)
+                {
+                    var newDishIngredient = new DishIngredient
+                    {
+                        Dish = model.Dish,
+                        Ingredient = ai
+                    };
+                    dishToUpdate.DishIngredients.Add(newDishIngredient);
+                }
+            }
+
+            _applicationDbContext.Update(dishToUpdate);
+            _applicationDbContext.SaveChanges();
+
+            return RedirectToAction("Details", "Home");
+        }
+
         public IActionResult Delete(int? id)
         {
             if (id == null)
