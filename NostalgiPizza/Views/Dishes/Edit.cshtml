@@ -7,9 +7,12 @@
 <div class="edit-page">
     <div class="form">
         <form asp-action="Edit" method="post">
-            <input asp-for="@Model.Dish.Name" placeholder="name" />
-            <input type="hidden" asp-for="@Model.Dish.DishId" />
-            <input asp-for="@Model.Dish.Price" placeholder="price" />
+            <input asp-for="@Model.Name" placeholder="name" />
+            <input type="hidden" asp-for="@Model.Id" />
+            <input asp-for="@Model.Price" placeholder="price" />
+            <select asp-for="@Model.CategoryId" asp-items="@Model.CategoryList">
+                <option>Category</option>
+            </select>
             <div class="text-left">
                 @for (var di = 0; di < Model.DishIngredients.Count; di++)
                 {
@@ -17,7 +20,7 @@
                         <label asp-for="@Model.DishIngredients[di].Ingredient.Enable">
                             <input type="checkbox" asp-for="@Model.DishIngredients[di].Ingredient.Enable" checked/>@Model.DishIngredients[di].Ingredient.Name</label>
                         <input type="hidden" asp-for="@Model.DishIngredients[di].Ingredient.Name"/>
-                        <input type="hidden" asp-for="@Model.DishIngredients[di].Ingredient.IngredientId"/>
+                        <input type="hidden" asp-for="@Model.DishIngredients[di].Ingredient.Id"/>
                     </div>
                 }
 
@@ -27,7 +30,7 @@
                         <label asp-for="@Model.AllIngredients[ai].Enable">
                             <input type="checkbox" asp-for="@Model.AllIngredients[ai].Enable"/>@Model.AllIngredients[ai].Name</label>
                         <input type="hidden" asp-for="@Model.AllIngredients[ai].Name"/>
-                        <input type="hidden" asp-for="@Model.AllIngredients[ai].IngredientId"/>
+                        <input type="hidden" asp-for="@Model.AllIngredients[ai].Id"/>
                     </div>
                 }
             </div>

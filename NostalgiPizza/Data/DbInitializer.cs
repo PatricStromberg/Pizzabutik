@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using NostalgiPizza.Models;
 
@@ -153,7 +151,7 @@ namespace NostalgiPizza.Data
                     spicyBBQPorkAndBaconPineapple,
                     spicyBBQPorkAndBaconRedOnion,
                     spicyBBQPorkAndBaconLateHarvestJalapenos,
-                    spicyBBQPorkAndBaconPorkAndFennelSausage,
+                    spicyBBQPorkAndBaconBBQSauceBase,
                     spicyBBQPorkAndBaconSpringOnion
                 };
                 fireBreather.DishIngredients = new List<DishIngredient>

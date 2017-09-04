@@ -10,15 +10,16 @@
             <select asp-for="@Model.CategoryId" asp-items="@Model.CategoryList">
                 <option>Category</option>
             </select>
-            <input asp-for="@Model.Name" placeholder="name" />
+            <input asp-for="@Model.NewName" placeholder="name" />
             <input asp-for="@Model.Price" placeholder="price" />
             <div class="text-left">
-                @foreach (var ingredient in Model.IngredientList)
+                @for (var i = 0; i < Model.IngredientList.Count; i++)
                 {
                     <div class="checkbox">
-                        <label asp-for="@ingredient.Enable"><input type="checkbox" asp-for="@ingredient.Enable" />@ingredient.Name</label>
-                        <input type="hidden" asp-for="@ingredient.Name" />
-                        <input type="hidden" asp-for="@ingredient.IngredientId" />
+                        <label asp-for="@Model.IngredientList[i].Enable">
+                            <input type="checkbox" asp-for="@Model.IngredientList[i].Enable"/>@Model.IngredientList[i].Name</label>
+                        <input type="hidden" asp-for="@Model.IngredientList[i].Name"/>
+                        <input type="hidden" asp-for="@Model.IngredientList[i].Id"/>
                     </div>
                 }
             </div>

@@ -7,8 +7,8 @@
 <div class="edit-page">
     <div class="form">
         <form asp-action="Edit" method="post">
-            <input asp-for="@Model.Ingredient.Name" placeholder="name" />
-            <input type="hidden" asp-for="@Model.Ingredient.IngredientId" />
+            <input asp-for="@Model.Name" placeholder="name" />
+            <input type="hidden" asp-for="@Model.Id" />
             <button type="submit">save</button>
         </form>
     </div>

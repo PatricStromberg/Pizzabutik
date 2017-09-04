@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +19,7 @@ namespace NostalgiPizza.Controllers
 
         public IActionResult Create()
         {
-            var categorylist = new SelectList(_applicationDbContext.Categories, "CategoryId", "Name");
+            var categorylist = new SelectList(_applicationDbContext.Categories, "Id", "Name");
 
             var ingredientList = _applicationDbContext.Ingredients.ToList();
 
@@ -43,18 +41,15 @@ namespace NostalgiPizza.Controllers
 
             var newDish = new Dish
             {
-                Name = model.Name,
+                Name = model.NewName,
                 Price = model.Price,
                 CategoryId = model.CategoryId,
                 DishIngredients = new List<DishIngredient>()
             };
-            _applicationDbContext.Add(newDish);
+            _applicationDbContext.Dishes.Add(newDish);
             _applicationDbContext.SaveChanges();
-
-            //_applicationDbContext.Dishes.Add(newDish);
-            //_applicationDbContext.SaveChanges();
-
-            //var dish = _applicationDbContext.Dishes.FirstOrDefault(x => x.DishId == newDish.DishId);
+            
+            var dish = _applicationDbContext.Dishes.FirstOrDefault(x => x.Id == newDish.Id);
 
             foreach (var ingredient in model.IngredientList)
             {
@@ -62,11 +57,12 @@ namespace NostalgiPizza.Controllers
 
                 var newDishIngredient = new DishIngredient
                 {
+                    DishId = newDish.Id,
                     Dish = newDish,
+                    IngredientId = ingredient.Id,
                     Ingredient = ingredient
                 };
-                _applicationDbContext.DishIngredients.Add(newDishIngredient);
-                //_applicationDbContext.Add(newDishIngredient);
+                dish.DishIngredients.Add(newDishIngredient);
             }
 
             _applicationDbContext.SaveChanges();
@@ -83,24 +79,28 @@ namespace NostalgiPizza.Controllers
 
             var dish = _applicationDbContext.Dishes.Include(d => d.DishIngredients)
                 .ThenInclude(di => di.Ingredient)
-                .SingleOrDefault(d => d.DishId == id);
+                .SingleOrDefault(d => d.Id == id);
 
             if (dish == null)
             {
                 return NotFound();
             }
 
-            var dishIngredients = dish.DishIngredients.ToList();
-
             var allIngredients = _applicationDbContext.Ingredients.ToList();
 
-            allIngredients.RemoveAll(x => dishIngredients.Exists(y => y.IngredientId == x.IngredientId));
+            allIngredients.RemoveAll(x => dish.DishIngredients.Exists(y => y.IngredientId == x.Id));
+
+            var categorylist = new SelectList(_applicationDbContext.Categories, "Id", "Name");
 
             var model = new EditViewModel
             {
-                Dish = dish,
-                DishIngredients = dishIngredients,
-                AllIngredients = allIngredients
+                Id = dish.Id,
+                Name = dish.Name,
+                Price = dish.Price,
+                DishIngredients = dish.DishIngredients,
+                CategoryId = dish.CategoryId,
+                AllIngredients = allIngredients,
+                CategoryList = categorylist
             };
 
             return View(model);
@@ -111,31 +111,40 @@ namespace NostalgiPizza.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
-            var dishToUpdate = _applicationDbContext.Dishes.SingleOrDefault(d => d.DishId == model.Dish.DishId);
-            dishToUpdate.DishIngredients = new List<DishIngredient>();
+            var dishToUpdate = _applicationDbContext.Dishes.SingleOrDefault(d => d.Id == model.Id);
 
-            foreach (var di in model.DishIngredients)
+            dishToUpdate.Name = model.Name;
+            dishToUpdate.Price = model.Price;
+            dishToUpdate.CategoryId = model.CategoryId;
+
+            var dishIngredientList = new List<DishIngredient>();
+
+            foreach (var dishIngredient in model.DishIngredients.Where(di => di.Ingredient.Enable))
             {
-                if (di.Ingredient.Enable)
+                var newDishIngredient = new DishIngredient
                 {
-                    dishToUpdate.DishIngredients.Add(di);
-                }
+                    DishId = dishToUpdate.Id,
+                    Dish = dishToUpdate,
+                    IngredientId = dishIngredient.IngredientId,
+                    Ingredient = dishIngredient.Ingredient
+                };
+                dishIngredientList.Add(newDishIngredient);
             }
 
-            foreach (var ai in model.AllIngredients)
+            foreach (var ingredient in model.AllIngredients.Where(ai => ai.Enable))
             {
-                if (ai.Enable)
+                var newDishIngredient = new DishIngredient
                 {
-                    var newDishIngredient = new DishIngredient
-                    {
-                        Dish = model.Dish,
-                        Ingredient = ai
-                    };
-                    dishToUpdate.DishIngredients.Add(newDishIngredient);
-                }
+                    DishId = dishToUpdate.Id,
+                    Dish = dishToUpdate,
+                    IngredientId = ingredient.Id,
+                    Ingredient = ingredient
+                };
+                dishIngredientList.Add(newDishIngredient);
             }
 
-            _applicationDbContext.Update(dishToUpdate);
+            dishToUpdate.DishIngredients = dishIngredientList;
+            
             _applicationDbContext.SaveChanges();
 
             return RedirectToAction("Details", "Home");
@@ -149,7 +158,7 @@ namespace NostalgiPizza.Controllers
             }
 
             var dish = _applicationDbContext.Dishes
-                .SingleOrDefault(d => d.DishId == id);
+                .SingleOrDefault(d => d.Id == id);
 
             if (dish == null)
             {

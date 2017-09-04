@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace NostalgiPizza.Models
 {
     public class EditViewModel
     {
-        public Category Category { get; set; }
-        public Ingredient Ingredient { get; set; }
-        public Dish Dish { get; set; }
-        public List<Ingredient> AllIngredients { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int Price { get; set; }
         public List<DishIngredient> DishIngredients { get; set; }
+        public List<Ingredient> AllIngredients { get; set; }
+        public int CategoryId { get; set; }
+        public SelectList CategoryList { get; set; }
     }
 }

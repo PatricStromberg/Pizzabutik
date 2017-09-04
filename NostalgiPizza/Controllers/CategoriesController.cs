@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using NostalgiPizza.Data;
 using NostalgiPizza.Models;
 
@@ -31,7 +26,7 @@ namespace NostalgiPizza.Controllers
 
             var newCategory = new Category
             {
-                Name = model.Name
+                Name = model.NewName
             };
 
             _applicationDbContext.Add(newCategory);
@@ -47,7 +42,7 @@ namespace NostalgiPizza.Controllers
                 return NotFound();
             }
 
-            var category = _applicationDbContext.Categories.SingleOrDefault(m => m.CategoryId == id);
+            var category = _applicationDbContext.Categories.SingleOrDefault(m => m.Id == id);
 
             if (category == null)
             {
@@ -56,7 +51,8 @@ namespace NostalgiPizza.Controllers
 
             var model = new EditViewModel
             {
-                Category = category
+                Id = category.Id,
+                Name = category.Name
             };
 
             return View(model);
@@ -67,7 +63,11 @@ namespace NostalgiPizza.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
-            _applicationDbContext.Update(model.Category);
+            var category = _applicationDbContext.Categories.SingleOrDefault(c => c.Id == model.Id);
+
+            category.Name = model.Name;
+            
+            //_applicationDbContext.Update(category);
             _applicationDbContext.SaveChanges();
                 
             return RedirectToAction("Details", "Home");
@@ -81,7 +81,7 @@ namespace NostalgiPizza.Controllers
             }
 
             var category = _applicationDbContext.Categories
-                .SingleOrDefault(c => c.CategoryId == id);
+                .SingleOrDefault(c => c.Id == id);
 
             if (category == null)
             {

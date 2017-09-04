@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using NostalgiPizza.Data;
 using NostalgiPizza.Models;
 
@@ -34,7 +29,7 @@ namespace NostalgiPizza.Controllers
 
             var newIngredient = new Ingredient
             {
-                Name = model.Name
+                Name = model.NewName
             };
 
             _applicationDbContext.Add(newIngredient);
@@ -50,7 +45,7 @@ namespace NostalgiPizza.Controllers
                 return NotFound();
             }
 
-            var ingredient = _applicationDbContext.Ingredients.SingleOrDefault(m => m.IngredientId == id);
+            var ingredient = _applicationDbContext.Ingredients.SingleOrDefault(m => m.Id == id);
 
             if (ingredient == null)
             {
@@ -59,7 +54,8 @@ namespace NostalgiPizza.Controllers
 
             var model = new EditViewModel
             {
-                Ingredient = ingredient
+                Id = ingredient.Id,
+                Name = ingredient.Name
             };
 
             return View(model);
@@ -70,7 +66,11 @@ namespace NostalgiPizza.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
-            _applicationDbContext.Update(model.Ingredient);
+            var ingredient = _applicationDbContext.Ingredients.SingleOrDefault(i => i.Id == model.Id);
+
+            ingredient.Name = model.Name;
+
+            //_applicationDbContext.Update(ingredient);
             _applicationDbContext.SaveChanges();
 
             return RedirectToAction("Details", "Home");
@@ -84,7 +84,7 @@ namespace NostalgiPizza.Controllers
             }
 
             var ingredient = _applicationDbContext.Ingredients
-                .SingleOrDefault(i => i.IngredientId == id);
+                .SingleOrDefault(i => i.Id == id);
 
             if (ingredient == null)
             {

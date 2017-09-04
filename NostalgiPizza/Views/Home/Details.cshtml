@@ -29,8 +29,8 @@
                             {
                                 <tr>
                                     <td class="text-left" style="width: 90%">@c.Name</td>
-                                    <td><a class="btn btn-success" asp-controller="Categories" asp-action="Edit" asp-route-id="@c.CategoryId"><i class="fa fa-fw fa-pencil-square-o"></i></a></td>
-                                    <td><a class="btn btn-danger" asp-controller="Categories" asp-action="Delete" asp-route-id="@c.CategoryId"><i class="fa fa-fw fa-trash-o"></i></a></td>
+                                    <td><a class="btn btn-success" asp-controller="Categories" asp-action="Edit" asp-route-id="@c.Id"><i class="fa fa-fw fa-pencil-square-o"></i></a></td>
+                                    <td><a class="btn btn-danger" asp-controller="Categories" asp-action="Delete" asp-route-id="@c.Id"><i class="fa fa-fw fa-trash-o"></i></a></td>
                                 </tr>
                             }
 
@@ -66,8 +66,8 @@
                                     }
                                     <td class="text-left">@result</td>
                                     <td>@d.Price</td>
-                                    <td><a class="btn btn-success" asp-controller="Dishes" asp-action="Edit" asp-route-id="@d.DishId"><i class="fa fa-fw fa-pencil-square-o"></i></a></td>
-                                    <td><a class="btn btn-danger" asp-controller="Dishes" asp-action="Delete" asp-route-id="@d.DishId"><i class="fa fa-fw fa-trash-o"></i></a></td>
+                                    <td><a class="btn btn-success" asp-controller="Dishes" asp-action="Edit" asp-route-id="@d.Id"><i class="fa fa-fw fa-pencil-square-o"></i></a></td>
+                                    <td><a class="btn btn-danger" asp-controller="Dishes" asp-action="Delete" asp-route-id="@d.Id"><i class="fa fa-fw fa-trash-o"></i></a></td>
 
 
                                 </tr>
@@ -93,8 +93,8 @@
                             {
                                 <tr>
                                     <td class="text-left" style="width: 90%">@i.Name</td>
-                                    <td><a class="btn btn-success" asp-controller="Ingredients" asp-action="Edit" asp-route-id="@i.IngredientId"><i class="fa fa-fw fa-pencil-square-o"></i></a></td>
-                                    <td><a class="btn btn-danger" asp-controller="Ingredients" asp-action="Delete" asp-route-id="@i.IngredientId"><i class="fa fa-fw fa-trash-o"></i></a></td>
+                                    <td><a class="btn btn-success" asp-controller="Ingredients" asp-action="Edit" asp-route-id="@i.Id"><i class="fa fa-fw fa-pencil-square-o"></i></a></td>
+                                    <td><a class="btn btn-danger" asp-controller="Ingredients" asp-action="Delete" asp-route-id="@i.Id"><i class="fa fa-fw fa-trash-o"></i></a></td>
                                 </tr>
                             }
 
