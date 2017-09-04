@@ -20,6 +20,11 @@ namespace NostalgiPizza
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .ConfigureLogging((httpContext, logging) =>
+                {
+                    logging.AddConsole();
+                    logging.AddDebug();
+                })
                 .Build();
     }
 }

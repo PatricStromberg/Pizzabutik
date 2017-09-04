@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -46,25 +47,21 @@ namespace NostalgiPizza.Controllers
                 CategoryId = model.CategoryId,
                 DishIngredients = new List<DishIngredient>()
             };
-            _applicationDbContext.Dishes.Add(newDish);
-            _applicationDbContext.SaveChanges();
-            
-            var dish = _applicationDbContext.Dishes.FirstOrDefault(x => x.Id == newDish.Id);
 
             foreach (var ingredient in model.IngredientList)
             {
+                Debug.WriteLine($"Ingredient: {ingredient.Id}");
                 if (!ingredient.Enable) continue;
 
                 var newDishIngredient = new DishIngredient
                 {
-                    DishId = newDish.Id,
                     Dish = newDish,
-                    IngredientId = ingredient.Id,
-                    Ingredient = ingredient
+                    IngredientId = ingredient.Id
                 };
-                dish.DishIngredients.Add(newDishIngredient);
+                newDish.DishIngredients.Add(newDishIngredient);
             }
 
+            _applicationDbContext.Dishes.Add(newDish);
             _applicationDbContext.SaveChanges();
 
             return RedirectToAction("Details", "Home");
@@ -123,10 +120,8 @@ namespace NostalgiPizza.Controllers
             {
                 var newDishIngredient = new DishIngredient
                 {
-                    DishId = dishToUpdate.Id,
                     Dish = dishToUpdate,
-                    IngredientId = dishIngredient.IngredientId,
-                    Ingredient = dishIngredient.Ingredient
+                    IngredientId = dishIngredient.IngredientId
                 };
                 dishIngredientList.Add(newDishIngredient);
             }
@@ -135,10 +130,8 @@ namespace NostalgiPizza.Controllers
             {
                 var newDishIngredient = new DishIngredient
                 {
-                    DishId = dishToUpdate.Id,
                     Dish = dishToUpdate,
-                    IngredientId = ingredient.Id,
-                    Ingredient = ingredient
+                    IngredientId = ingredient.Id
                 };
                 dishIngredientList.Add(newDishIngredient);
             }
