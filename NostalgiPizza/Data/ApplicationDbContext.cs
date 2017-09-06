@@ -26,6 +26,19 @@ namespace NostalgiPizza.Data
                 .WithMany(i => i.DishIngredients)
                 .HasForeignKey(di => di.IngredientId);
 
+            builder.Entity<CartItemIngredient>()
+                .HasKey(cii => new { cii.CartItemId, cii.IngredientId });
+
+            builder.Entity<CartItemIngredient>()
+                .HasOne(cii => cii.CartItem)
+                .WithMany(ci => ci.CartItemIngredients)
+                .HasForeignKey(cii => cii.CartItemId);
+
+            builder.Entity<CartItemIngredient>()
+                .HasOne(cii => cii.Ingredient)
+                .WithMany(ci => ci.CartItemIngredients)
+                .HasForeignKey(cii => cii.IngredientId);
+
 
 
             base.OnModelCreating(builder);
@@ -38,5 +51,8 @@ namespace NostalgiPizza.Data
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<DishIngredient> DishIngredients { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<CartItemIngredient> CartItemIngredients { get; set; }
     }
 }

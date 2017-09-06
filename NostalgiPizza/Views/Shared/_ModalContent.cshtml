@@ -1,0 +1,40 @@
+﻿@model NostalgiPizza.Models.AddToCartViewModel
+
+<div class="modal-header">
+    <h5 class="modal-title" id="modifyDishModalLabel">Modify your dish</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<form asp-controller="Cart" asp-action="AddToCart" method="post">
+    <div class="modal-body">
+        <h5>Add or remove ingredients in your meal</h5>
+        <h6>Ingredients</h6>
+        <input type="hidden" asp-for="@Model.Dish.Id"/>
+        @for (var di = 0; di < Model.Dish.DishIngredients.Count; di++)
+        {
+            <div class="checkbox">
+                <label asp-for="@Model.Dish.DishIngredients[di].Ingredient.Enable">
+                    <input type="checkbox" asp-for="@Model.Dish.DishIngredients[di].Ingredient.Enable" checked/>@Model.Dish.DishIngredients[di].Ingredient.Name
+                </label>
+                <input type="hidden" asp-for="@Model.Dish.DishIngredients[di].Ingredient.Name"/>
+                <input type="hidden" asp-for="@Model.Dish.DishIngredients[di].Ingredient.Id"/>
+            </div>
+        }
+
+        @for (var ai = 0; ai < Model.AllIngredients.Count; ai++)
+        {
+            <div class="checkbox">
+                <label asp-for="@Model.AllIngredients[ai].Enable">
+                    <input type="checkbox" asp-for="@Model.AllIngredients[ai].Enable"/>@Model.AllIngredients[ai].Name
+                </label>
+                <input type="hidden" asp-for="@Model.AllIngredients[ai].Name"/>
+                <input type="hidden" asp-for="@Model.AllIngredients[ai].Id"/>
+            </div>
+        }
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Add</button>
+    </div>
+</form>

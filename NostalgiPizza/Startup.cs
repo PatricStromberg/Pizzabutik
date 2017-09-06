@@ -41,6 +41,7 @@ namespace NostalgiPizza
             services.AddTransient<RoleManager<IdentityRole>>();
 
             services.AddMvc();
+            services.AddSession();
 
         }
 
@@ -61,6 +62,8 @@ namespace NostalgiPizza
             app.UseStaticFiles();
 
             app.UseAuthentication();
+
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

@@ -1,5 +1,4 @@
-﻿@using System.Collections.Generic
-@using System.Linq
+﻿@using System.Linq
 @model NostalgiPizza.Models.StartViewModel
 
 <section id="menu">
@@ -27,17 +26,26 @@
                                     {
                                         ingredientsList.Add(di.Ingredient.Name);
                                     }
-                                    string result = string.Join(", ", ingredientsList.Take(ingredientsList.Count - 1)) + (ingredientsList.Count <= 1 ? "" : " & ") + ingredientsList.LastOrDefault();
+                                    var result = string.Join(", ", ingredientsList.Take(ingredientsList.Count - 1)) + (ingredientsList.Count <= 1 ? "" : " & ") + ingredientsList.LastOrDefault();
                                 }
                                 @result
                             </p>
-                            <a href="#"><i class="fa fa-shopping-basket text-primary sr-icons"></i></a>
+                            <a asp-action="AddToCart" asp-controller="Cart" asp-route-id="@d.Id" data-target="#modifyDishModal" data-toggle="modal"><i class="fa fa-shopping-basket text-primary sr-icons"></i></a>
                         </div>
                     </div>
                 }
             </div>
         </div>
     }
+    
+    <!-- Modal -->
+    <div class="modal fade" id="modifyDishModal" tabindex="-1" role="dialog" aria-labelledby="modifyDishModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                
+            </div>
+        </div>
+    </div>
 
 </section>
 
@@ -65,3 +73,4 @@
         </div>
     </div>
 </section>
+
