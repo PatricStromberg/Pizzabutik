@@ -2,6 +2,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NostalgiPizza.Data;
+using NostalgiPizza.Services;
 using Xunit;
 
 namespace PizzaTests
