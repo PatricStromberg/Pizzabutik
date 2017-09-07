@@ -1,6 +1,10 @@
 ﻿@using NostalgiPizza.Models
+@using Microsoft.AspNetCore.Http;
+@using NostalgiPizza.Data
+
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject ApplicationDbContext _ApplicationDbContext
 
 <!DOCTYPE html>
 <html lang="en">
@@ -74,9 +78,13 @@
                         <a class="nav-link" asp-controller="Home" asp-action="LogInOrRegister">Log in</a>
                     </li>
                 }
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-shopping-basket"></i></a>
-                </li>
+                @if (Context.Session.GetInt32("Cart").HasValue)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Cart" asp-action="ViewCart"><i class="fa fa-shopping-basket"></i></a>
+                    </li>
+                }
+               
 
 
 
@@ -111,6 +119,7 @@
 <!-- Custom scripts for this template -->
 <script src="js/creative.min.js"></script>
     
+@RenderSection("script")
 <script type="text/javascript">
     $(function () {
 

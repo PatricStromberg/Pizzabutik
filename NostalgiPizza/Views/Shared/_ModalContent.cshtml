@@ -11,6 +11,8 @@
         <h5>Add or remove ingredients in your meal</h5>
         <h6>Ingredients</h6>
         <input type="hidden" asp-for="@Model.Dish.Id"/>
+        <input type="hidden" asp-for="@Model.Dish.Name"/>
+        <input type="hidden" asp-for="@Model.Dish.Price"/>
         @for (var di = 0; di < Model.Dish.DishIngredients.Count; di++)
         {
             <div class="checkbox">

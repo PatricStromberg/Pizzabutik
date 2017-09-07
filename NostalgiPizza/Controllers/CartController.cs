@@ -19,6 +19,25 @@ namespace NostalgiPizza.Controllers
             _applicationDbContext = applicationDbContext;
         }
 
+        public IActionResult ViewCart()
+        {
+            var cartId = HttpContext.Session.GetInt32("Cart");
+
+            if (!cartId.HasValue)
+            {
+                return View();
+            }
+            var cart = _applicationDbContext.Carts
+                .Include(c => c.CartItems)
+                .ThenInclude(x => x.Dish)
+                .Include(d => d.CartItems)
+                .ThenInclude(x =>x.CartItemIngredients)
+                .ThenInclude(ci => ci.Ingredient)
+                .FirstOrDefault(x => x.Id.Equals(cartId));
+
+            return View(cart);
+        }
+
         public IActionResult AddToCart(int id)
         {
             var dish = _applicationDbContext.Dishes
@@ -52,10 +71,13 @@ namespace NostalgiPizza.Controllers
                 {
                     CartItems = new List<CartItem>()
                 };
+                _applicationDbContext.Carts.Add(cart);
+
+                HttpContext.Session.SetInt32("Cart", cart.Id);
             }
             else
             {
-                cart = _applicationDbContext.Carts.FirstOrDefault(c => c.Id.Equals(cartId));
+                cart = _applicationDbContext.Carts.Include(c => c.CartItems).FirstOrDefault(c => c.Id.Equals(cartId));
             }
 
             var cartItem = new CartItem
@@ -71,7 +93,7 @@ namespace NostalgiPizza.Controllers
                 var cartItemIngredient = new CartItemIngredient
                 {
                     CartItem = cartItem,
-                    IngredientId = enableIngredient.IngredientId
+                    IngredientId = enableIngredient.Ingredient.Id
                 };
                 cartItem.CartItemIngredients.Add(cartItemIngredient);
             }
@@ -88,13 +110,9 @@ namespace NostalgiPizza.Controllers
 
             cart.CartItems.Add(cartItem);
 
-            _applicationDbContext.Carts.Add(cart);
             _applicationDbContext.SaveChanges();
 
-            HttpContext.Session.SetInt32("Cart", cart.Id);
-
-
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { backToMenu = true });
         }
     }
 }

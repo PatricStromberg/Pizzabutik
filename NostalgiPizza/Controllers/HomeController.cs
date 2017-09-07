@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,18 +20,22 @@ namespace NostalgiPizza.Controllers
             _signInManager = signInManager;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(bool backToMenu = false)
         {
             var categories = _applicationDbContext.Categories.Include(c => c.Dishes)
                 .ThenInclude(d => d.DishIngredients)
                 .ThenInclude(di => di.Ingredient)
                 .ToList();
-            
+ 
             var model = new StartViewModel
             {
                 Categories = categories
             };
 
+            if (backToMenu)
+            {
+                model.BackToMenu = "menu";
+            }
             return View(model);
         }
 

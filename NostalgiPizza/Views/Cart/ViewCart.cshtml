@@ -1,0 +1,16 @@
+﻿@model NostalgiPizza.Models.Cart
+
+@{
+    Layout = "_EditLayout";
+}
+
+@foreach (var cart in Model.CartItems)
+{
+    @cart.Quantity
+    @cart.Dish.Name
+    @cart.Dish.Price
+    foreach (var ingredient in cart.CartItemIngredients)
+    {
+        @ingredient.Ingredient.Name
+    }
+}
