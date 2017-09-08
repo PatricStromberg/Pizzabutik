@@ -55,7 +55,7 @@ namespace NostalgiPizza.Controllers
                 AllIngredients = allIngredients
             };
 
-            return PartialView("_ModalContent", model);
+            return PartialView("_ModifyDishToCartModal", model);
         }
 
         [HttpPost]
@@ -113,6 +113,79 @@ namespace NostalgiPizza.Controllers
             _applicationDbContext.SaveChanges();
 
             return RedirectToAction("Index", "Home", new { backToMenu = true });
+        }
+
+        public IActionResult EditCartItem(int id)
+        {
+            var cartItem = _applicationDbContext.CartItems
+                .Include(ci => ci.CartItemIngredients)
+                .ThenInclude(cii => cii.Ingredient)
+                .FirstOrDefault(ci => ci.Id.Equals(id));
+
+            var allIngredients = _applicationDbContext.Ingredients.OrderBy(x => x.Name).ToList();
+
+            allIngredients.RemoveAll(x => cartItem.CartItemIngredients.Exists(y => y.IngredientId == x.Id));
+
+            var model = new ModifyCartItemViewModel
+            {
+                CartItem = cartItem,
+                AllIngredients = allIngredients
+            };
+            
+            return PartialView("_ModifyCartItemModal", model);
+        }
+
+        [HttpPost]
+        public IActionResult EditCartItem(ModifyCartItemViewModel model)
+        {
+            var cartItem = _applicationDbContext.CartItems
+                .Include(ci => ci.CartItemIngredients)
+                .ThenInclude(cii => cii.Ingredient)
+                .FirstOrDefault(ci => ci.Id.Equals(model.CartItem.Id));
+
+            _applicationDbContext.CartItemIngredients.RemoveRange(cartItem.CartItemIngredients);
+            _applicationDbContext.SaveChanges();
+
+            if (model.CartItem.CartItemIngredients != null)
+            {
+                foreach (var enableIngredient in model.CartItem.CartItemIngredients.Where(x => x.Ingredient.Enable))
+                {
+                    var cartItemIngredient = new CartItemIngredient
+                    {
+                        CartItem = cartItem,
+                        IngredientId = enableIngredient.Ingredient.Id
+                    };
+                    cartItem.CartItemIngredients.Add(cartItemIngredient);
+                }
+            }
+
+            if (model.AllIngredients != null)
+            {
+                foreach (var enableIngredient in model.AllIngredients.Where(x => x.Enable))
+                {
+                    var cartItemIngredient = new CartItemIngredient
+                    {
+                        CartItem = cartItem,
+                        IngredientId = enableIngredient.Id
+                    };
+                    cartItem.CartItemIngredients.Add(cartItemIngredient);
+                }
+            }
+            
+
+            _applicationDbContext.SaveChanges();
+
+            return RedirectToAction("ViewCart");
+        }
+
+        public IActionResult DeleteCartItem(int id)
+        {
+            var cartItem = _applicationDbContext.CartItems.FirstOrDefault(x => x.Id.Equals(id));
+
+            _applicationDbContext.CartItems.Remove(cartItem);
+            _applicationDbContext.SaveChanges();
+
+            return RedirectToAction("ViewCart");
         }
     }
 }
