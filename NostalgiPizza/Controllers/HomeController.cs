@@ -75,11 +75,19 @@ namespace NostalgiPizza.Controllers
 
             var ingredients = _applicationDbContext.Ingredients.ToList();
 
+            var orders = _applicationDbContext.Orders
+                .Include(o => o.ApplicationUser)
+                .Include(o => o.Cart)
+                .ThenInclude(c => c.CartItems)
+                .ThenInclude(ci => ci.Dish)
+                .ToList();
+
             var model = new DetailsViewModel
             {
                 Categories = categories,
                 Dishes = dishes,
-                Ingredients = ingredients
+                Ingredients = ingredients,
+                Orders = orders
             };
 
             return View(model);
