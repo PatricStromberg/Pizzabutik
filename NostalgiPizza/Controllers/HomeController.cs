@@ -13,11 +13,13 @@ namespace NostalgiPizza.Controllers
     {
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public HomeController(ApplicationDbContext applicationDbContext, SignInManager<ApplicationUser> signInManager)
+        public HomeController(ApplicationDbContext applicationDbContext, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
             _applicationDbContext = applicationDbContext;
             _signInManager = signInManager;
+            _userManager = userManager;
         }
 
         public IActionResult Index(bool backToMenu = false)
@@ -41,10 +43,16 @@ namespace NostalgiPizza.Controllers
 
         public ActionResult LogInOrRegister()
         {
-            return View();
+            var model = new LoginOrRegisterViewModel
+            {
+                LogInViewModel = new LogInViewModel(),
+                RegisterViewModel = new RegisterViewModel()
+            };
+            return View(model);
         }
 
-        public async Task<IActionResult> LogIn(LoginViewModel logIn)
+        [HttpPost]
+        public async Task<IActionResult> LogIn(LogInViewModel logIn)
         {
             if (ModelState.IsValid)
             {
@@ -55,7 +63,13 @@ namespace NostalgiPizza.Controllers
                 }
             }
 
-            return View("LogInOrRegister", logIn);
+            var model = new LoginOrRegisterViewModel
+            {
+                LogInViewModel = logIn,
+                RegisterViewModel = new RegisterViewModel()
+            };
+
+            return View("LogInOrRegister", model);
         }
 
         public async Task<IActionResult> LogOut()
@@ -63,6 +77,38 @@ namespace NostalgiPizza.Controllers
             await _signInManager.SignOutAsync();
 
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel register)
+        {
+            if (ModelState.IsValid)
+            {
+                var newRegister = new ApplicationUser
+                {
+                    UserName = register.Email,
+                    Email = register.Email,
+                    FirstName = register.FirstName,
+                    LastName = register.LastName,
+                    ShippingAddress = register.ShippingAddress,
+                    ShippingCity = register.ShippingCity,
+                    ShippingZip = register.ShippingZip,
+                    HomePhone = register.HomePhone
+                };
+
+                var userResult = await _userManager.CreateAsync(newRegister, register.Password);
+                if (userResult.Succeeded)
+                {
+                    await _signInManager.SignInAsync(newRegister, isPersistent: false);
+                    return RedirectToAction("Index");
+                }
+            }
+            var model = new LoginOrRegisterViewModel
+            {
+                LogInViewModel = new LogInViewModel(),
+                RegisterViewModel = register
+            };
+            return View("LogInOrRegister", model);
         }
 
         public IActionResult Details()

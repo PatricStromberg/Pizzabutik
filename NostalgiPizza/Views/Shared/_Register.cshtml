@@ -1,0 +1,15 @@
+﻿@model NostalgiPizza.Models.RegisterViewModel
+
+<form asp-controller="Home" asp-action="Register" method="post" class="register-form">
+    <input asp-for="FirstName" placeholder="First name"/>
+    <input asp-for="LastName" placeholder="Last name"/>
+    <input asp-for="Email" placeholder="Email"/>
+    <input asp-for="Password" placeholder="Password"/>
+    <input asp-for="ShippingAddress" placeholder="Address"/>
+    <input asp-for="ShippingCity" placeholder="City"/>
+    <input asp-for="ShippingZip" placeholder="Zip"/>
+    <input asp-for="HomePhone" placeholder="Phone"/>
+    <button type="submit">create</button>
+    <p class="message">Already registered? <a href="#">Sign In</a>
+    </p>
+</form>

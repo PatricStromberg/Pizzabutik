@@ -1,23 +1,12 @@
-﻿@model NostalgiPizza.Models.LoginViewModel
+﻿@model NostalgiPizza.Models.LoginOrRegisterViewModel
 @{
     Layout = "_LoginLayout";
 }
 
     <div class="login-page">
         <div class="form">
-            <form class="register-form">
-                <input type="text" placeholder="name" />
-                <input type="password" placeholder="password" />
-                <input type="text" placeholder="email address" />
-                <button>create</button>
-                <p class="message">Already registered? <a href="#">Sign In</a></p>
-            </form>
-            <form asp-controller="Home" asp-action="LogIn" class="login-form">
-                <input asp-for="Email" placeholder="username" />
-                <input asp-for="Password" placeholder="password" />
-                <button type="submit">login</button>
-                <p class="message">Not registered? <a href="#">Create an account</a></p>
-            </form>
+            @Html.Partial("_Register", Model.RegisterViewModel)
+            @Html.Partial("_LogIn", Model.LogInViewModel)
         </div>
     </div>
 
