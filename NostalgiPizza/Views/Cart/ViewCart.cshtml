@@ -4,25 +4,25 @@
     Layout = "_EditLayout";
 }
 
-@foreach (var cart in Model.CartItems)
+@foreach (var cartItem in Model.CartItems)
 {
     <p>
-        @cart.Quantity st 
-        @cart.Dish.Name 
-        @cart.Dish.Price kr 
-        <a asp-controller="Cart" asp-action="EditCartItem" asp-route-id="@cart.Id" data-target="#modifyCartItemModal" data-toggle="modal">Edit</a> 
-        <a asp-controller="Cart" asp-action="DeleteCartItem" asp-route-id="@cart.Id">Delete</a>
+        @cartItem.Quantity st 
+        @cartItem.Dish.Name 
+        @cartItem.Dish.Price kr 
+        <a asp-controller="Cart" asp-action="EditCartItem" asp-route-id="@cartItem.Id" data-target="#modifyCartItemModal" data-toggle="modal">Edit</a> 
+        <a asp-controller="Cart" asp-action="DeleteCartItem" asp-route-id="@cartItem.Id">Delete</a>
     </p>
     
     <p>
-        @foreach (var ingredient in cart.CartItemIngredients)
+        @foreach (var ingredient in cartItem.CartItemIngredients)
         {
         @ingredient.Ingredient.Name 
         }
     </p>
     
 }
-<a asp-controller="Payment" asp-action="Index">Pay</a>
+<a asp-controller="Payment" asp-action="Payment" asp-route-id="@Model.Id">Pay</a>
 
 <!-- Modal -->
 <div class="modal fade" id="modifyCartItemModal" tabindex="-1" role="dialog" aria-labelledby="modifyDishModalLabel" aria-hidden="true">

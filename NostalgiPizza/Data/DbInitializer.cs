@@ -12,7 +12,18 @@ namespace NostalgiPizza.Data
             var aUser = new ApplicationUser
             {
                 UserName = "student@test.com",
-                Email = "student@test.com"
+                Email = "student@test.com",
+                FirstName = "Patric",
+                LastName = "Strömberg",
+                ShippingAddress = "Eskadervägen 40",
+                ShippingCity = "Täby",
+                ShippingZip = 18358,
+                HomeEmail = "stromberg.patric@hotmail.com",
+                HomePhone = 0731234567,
+                CardNumber = 1234567891011121,
+                ExpirationMonth = 10,
+                ExpirationYear = 17,
+                CVS = 123
             };
             var userResult = userManager.CreateAsync(aUser, "Pa$$w0rd").Result;
 
@@ -22,7 +33,18 @@ namespace NostalgiPizza.Data
             var adminUser = new ApplicationUser
             {
                 UserName = "admin@test.com",
-                Email = "admin@test.com"
+                Email = "admin@test.com",
+                FirstName = "Patric",
+                LastName = "Strömberg",
+                ShippingAddress = "Eskadervägen 40",
+                ShippingCity = "Täby",
+                ShippingZip = 18358,
+                HomeEmail = "stromberg.patric@hotmail.com",
+                HomePhone = 0731234567,
+                CardNumber = 1234567891011121,
+                ExpirationMonth = 10,
+                ExpirationYear = 17,
+                CVS = 123
             };
             var adminUserResult = userManager.CreateAsync(adminUser, "Pa$$w0rd").Result;
 
