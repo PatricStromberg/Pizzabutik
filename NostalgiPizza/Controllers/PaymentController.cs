@@ -36,9 +36,12 @@ namespace NostalgiPizza.Controllers
                 .ThenInclude(ci => ci.Dish)
                 .FirstOrDefault(c => c.Id.Equals(id));
 
+            var total = cart.CartItems.Sum(x => x.Dish.Price);
+
             var model = new PaymentViewModel
             {
-                Cart = cart
+                Cart = cart,
+                Total = total
             };
 
             if (!isSignedIn) return View(model);
@@ -51,6 +54,23 @@ namespace NostalgiPizza.Controllers
         [HttpPost]
         public IActionResult Payment(PaymentViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                var cart = _applicationDbContext.Carts
+                    .Include(c => c.CartItems)
+                    .ThenInclude(ci => ci.CartItemIngredients)
+                    .ThenInclude(cii => cii.Ingredient)
+                    .Include(c => c.CartItems)
+                    .ThenInclude(ci => ci.Dish)
+                    .FirstOrDefault(c => c.Id.Equals(model.Cart.Id));
+
+                var total = cart.CartItems.Sum(x => x.Dish.Price);
+
+                model.Cart = cart;
+                model.Total = total;
+
+                return View(model);
+            }
             var paymentUser = model.CurrentUser;
 
             _applicationDbContext.ApplicationUsers.Add(paymentUser);
@@ -60,6 +80,7 @@ namespace NostalgiPizza.Controllers
                 CartId = model.Cart.Id,
                 ApplicationUser = model.CurrentUser
             };
+            order.ApplicationUser.Email = model.CurrentUser.HomeEmail;
 
             _applicationDbContext.Orders.Add(order);
             _applicationDbContext.SaveChanges();

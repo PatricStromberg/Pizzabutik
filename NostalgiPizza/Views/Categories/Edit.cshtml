@@ -1,15 +1,38 @@
 ﻿@model NostalgiPizza.Models.EditViewModel
 
 @{
-    Layout = "_EditLayout";
+    Layout = "_LTELayout";
 }
 
-<div class="edit-page">
-    <div class="form">
-        <form asp-action="Edit" method="post">
-            <input asp-for="@Model.Name" placeholder="name" />
-            <input type="hidden" asp-for="@Model.Id" />
-            <button type="submit">save</button>
-        </form>
+
+@*<section class="content-header">
+    <h1>
+        
+    </h1>
+</section>*@
+
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Edit category</h3>
+                </div>
+                <form asp-action="Edit" method="post">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label asp-for="@Model.Name"></label>
+                            <input asp-for="@Model.Name" type="text" class="form-control" placeholder="Name">
+                            <input type="hidden" asp-for="@Model.Id" />
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <a class="btn btn-default" asp-controller="Home" asp-action="Details">Back</a>
+                        <button type="submit" class="btn btn-primary pull-right">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-</div>
+</section>

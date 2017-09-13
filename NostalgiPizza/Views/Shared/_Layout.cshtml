@@ -71,11 +71,8 @@
                 }
                 else
                 {
-                    @*<li class="nav-item">
-                        <a class="nav-link" asp-controller="Home" asp-action="LogIn">Register</a>
-                    </li>*@
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Home" asp-action="LogInOrRegister">Log in</a>
+                        <a class="nav-link" asp-controller="Home" asp-action="LogIn">Log in</a>
                     </li>
                 }
                 @if (Context.Session.GetInt32("Cart").HasValue)

@@ -108,11 +108,17 @@ namespace NostalgiPizza.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
-            var dishToUpdate = _applicationDbContext.Dishes.SingleOrDefault(d => d.Id == model.Id);
+            var dishToUpdate = _applicationDbContext.Dishes
+                .Include(d => d.DishIngredients).
+                ThenInclude(di => di.Ingredient)
+                .FirstOrDefault(d => d.Id == model.Id);
 
             dishToUpdate.Name = model.Name;
             dishToUpdate.Price = model.Price;
             dishToUpdate.CategoryId = model.CategoryId;
+
+            _applicationDbContext.DishIngredients.RemoveRange(dishToUpdate.DishIngredients);
+            _applicationDbContext.SaveChanges();
 
             var dishIngredientList = new List<DishIngredient>();
 

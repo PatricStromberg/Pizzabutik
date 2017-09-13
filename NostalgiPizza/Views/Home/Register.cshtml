@@ -1,0 +1,72 @@
+﻿@model NostalgiPizza.Models.RegisterViewModel
+@{
+    Layout = "_LTELoginLayout";
+}
+
+<p class="login-box-msg">Register a new membership</p>
+
+<form asp-controller="Home" asp-action="Register" method="post">
+    <div class="form-group has-feedback">
+        <input asp-for="FirstName" class="form-control" placeholder="Firstname">
+        <span class="fa fa-user form-control-feedback"></span>
+        <span class="text-danger" asp-validation-for="FirstName"></span>
+    </div>
+    <div class="form-group has-feedback">
+        <input asp-for="LastName" class="form-control" placeholder="Lastname">
+        <span class="fa fa-user form-control-feedback"></span>
+        <span class="text-danger" asp-validation-for="LastName"></span>
+    </div>
+    <div class="form-group has-feedback">
+        <input asp-for="ShippingAddress" class="form-control" placeholder="Address">
+        <span class="fa fa-location-arrow form-control-feedback"></span>
+        <span class="text-danger" asp-validation-for="ShippingAddress"></span>
+    </div>
+    <div class="form-group has-feedback">
+        <input asp-for="ShippingCity" class="form-control" placeholder="City">
+        <span class="fa fa-location-arrow form-control-feedback"></span>
+        <span class="text-danger" asp-validation-for="ShippingCity"></span>
+    </div>
+    <div class="form-group has-feedback">
+        <input asp-for="ShippingZip" type="text" class="form-control" placeholder="Zip">
+        <span class="fa fa-location-arrow form-control-feedback"></span>
+        <span class="text-danger" asp-validation-for="ShippingZip"></span>
+    </div>
+    <div class="form-group has-feedback">
+        <input asp-for="HomePhone" type="text" class="form-control" placeholder="Phone">
+        <span class="fa fa-phone form-control-feedback"></span>
+        <span class="text-danger" asp-validation-for="HomePhone"></span>
+    </div>
+    <div class="form-group has-feedback">
+        <input asp-for="Email" class="form-control" placeholder="Email">
+        <span class="fa fa-envelope form-control-feedback"></span>
+        <span class="text-danger" asp-validation-for="Email"></span>
+    </div>
+    <div class="form-group has-feedback">
+        <input asp-for="Password" type="text" class="form-control" placeholder="Password">
+        <span class="fa fa-lock form-control-feedback"></span>
+        <span class="text-danger" asp-validation-for="Password"></span>
+    </div>
+    <div class="row">
+        <div class="col-xs-8">
+            <div class="checkbox icheck">
+                <label>
+                    <input type="checkbox"> I agree to the <a href="#">terms</a>
+                </label>
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+        </div>
+    </div>
+</form>
+
+<div class="social-auth-links text-center">
+    <p>- OR -</p>
+    <a href="#" class="btn btn-block btn-social btn-facebook btn-flat" disabled><i class="fa fa-facebook"></i> Sign up using
+        Facebook</a>
+    <a href="#" class="btn btn-block btn-social btn-google btn-flat" disabled><i class="fa fa-google-plus"></i> Sign up using
+        Google+</a>
+</div>
+
+<a class="text-center" asp-controller="Home" asp-action="LogIn">I already have a membership</a>
+

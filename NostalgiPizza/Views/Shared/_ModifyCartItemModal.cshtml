@@ -1,10 +1,10 @@
 ﻿@model NostalgiPizza.Models.ModifyCartItemViewModel
 
 <div class="modal-header">
-    <h5 class="modal-title" id="modifyCartItemModalLabel">Modify your dish</h5>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
+    <h5 class="modal-title" id="modifyCartItemModalLabel">Modify your dish</h5>
 </div>
 <form asp-controller="Cart" asp-action="EditCartItem" method="post">
     <div class="modal-body">
@@ -14,8 +14,8 @@
         @for (var di = 0; di < Model.CartItem.CartItemIngredients.Count; di++)
         {
             <div class="checkbox">
-                <label asp-for="@Model.CartItem.CartItemIngredients[di].Ingredient.Enable">
-                    <input type="checkbox" asp-for="@Model.CartItem.CartItemIngredients[di].Ingredient.Enable" checked/>@Model.CartItem.CartItemIngredients[di].Ingredient.Name
+                <label class="no-padding" asp-for="@Model.CartItem.CartItemIngredients[di].Ingredient.Enable">
+                    <input type="checkbox" asp-for="@Model.CartItem.CartItemIngredients[di].Ingredient.Enable" checked/> @Model.CartItem.CartItemIngredients[di].Ingredient.Name
                 </label>
                 <input type="hidden" asp-for="@Model.CartItem.CartItemIngredients[di].Ingredient.Name"/>
                 <input type="hidden" asp-for="@Model.CartItem.CartItemIngredients[di].Ingredient.Id"/>
@@ -25,8 +25,8 @@
         @for (var ai = 0; ai < Model.AllIngredients.Count; ai++)
         {
             <div class="checkbox">
-                <label asp-for="@Model.AllIngredients[ai].Enable">
-                    <input type="checkbox" asp-for="@Model.AllIngredients[ai].Enable"/>@Model.AllIngredients[ai].Name
+                <label class="no-padding" asp-for="@Model.AllIngredients[ai].Enable">
+                    <input type="checkbox" asp-for="@Model.AllIngredients[ai].Enable"/> @Model.AllIngredients[ai].Name
                 </label>
                 <input type="hidden" asp-for="@Model.AllIngredients[ai].Name"/>
                 <input type="hidden" asp-for="@Model.AllIngredients[ai].Id"/>
@@ -34,7 +34,17 @@
         }
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Add</button>
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save</button>
     </div>
 </form>
+
+<script>
+    $(document).ready(function(){
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' // optional
+        });
+    });
+</script>

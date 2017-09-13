@@ -1,41 +1,128 @@
 ﻿@model NostalgiPizza.Models.PaymentViewModel
 
 @{
-    Layout = "_EditLayout";
+    Layout = "_LTELayout";
 }
 
-<form asp-controller="Payment" asp-action="Payment" method="post">
-    <input type="hidden" asp-for="@Model.Cart.Id" />
+<section class="content-header">
+    <h1>
+        Order
+    </h1>
+</section>
 
-    @for (var ci = 0; ci < Model.Cart.CartItems.Count; ci++)
-    {
-        <p>
-            @Model.Cart.CartItems[ci].Quantity st
-            @Model.Cart.CartItems[ci].Dish.Name
-            @Model.Cart.CartItems[ci].Dish.Price kr
-        </p>
+<section class="content">
+    <div class="box box-default">
+        <div class="box-header with-border">
+            <h3 class="box-title">Review your order</h3>
+        </div>
+        <div class="box-body table-responsive no-padding">
+            <table class="table table-hover">
+                <tr>
+                    <th class="text-center">Quantity</th>
+                    <th>Dish</th>
+                    <th>Ingredients</th>
+                    <th class="text-center">Price</th>
+                    <th></th>
+                </tr>
+                @foreach (var cartItem in Model.Cart.CartItems)
+                {
 
-        <p>
-            @for (var cii = 0; cii < Model.Cart.CartItems[ci].CartItemIngredients.Count; cii++)
-            {
-                @Model.Cart.CartItems[ci].CartItemIngredients[cii].Ingredient.Name
-            }
-        </p>
-    }
-
-    <p>Totalt: </p>
-
-
-    Firstname:  <input asp-for="@Model.CurrentUser.FirstName" /> <br />
-    Lastname:  <input asp-for="@Model.CurrentUser.LastName" /> <br />
-    Address:  <input asp-for="@Model.CurrentUser.ShippingAddress" /> <br />
-    Zip:  <input asp-for="@Model.CurrentUser.ShippingZip" /> <br />
-    City:  <input asp-for="@Model.CurrentUser.ShippingCity" /> <br />
-    Email:  <input asp-for="@Model.CurrentUser.Email" /> <br />
-    PHone:  <input asp-for="@Model.CurrentUser.HomePhone" /> <br />
-    Card number:  <input asp-for="@Model.CurrentUser.CardNumber" /> <br />
-    Expiration month:  <input asp-for="@Model.CurrentUser.ExpirationMonth" /> <br />
-    Expiration year:  <input asp-for="@Model.CurrentUser.ExpirationYear" /> <br />
-    CVS: <input asp-for="@Model.CurrentUser.CVS" /><br />
-    <button type="submit">Pay</button>
-</form>
+                    var ingredientsList = cartItem.CartItemIngredients.Select(ci => ci.Ingredient.Name).ToList();
+                    var result = string.Join(", ", ingredientsList.Take(ingredientsList.Count - 1)) + (ingredientsList.Count <= 1 ? "" : " & ") + ingredientsList.LastOrDefault();
+                    <tr>
+                        <td class="text-center">@cartItem.Quantity</td>
+                        <td>@cartItem.Dish.Name</td>
+                        <td>@result</td>
+                        <td class="text-center">@cartItem.Dish.Price</td>
+                    </tr>
+                }
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Total: @Model.Total</td>
+                </tr>
+            </table>
+        </div>
+        <form asp-controller="Payment" asp-action="Payment" method="post">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="hidden" asp-for="@Model.Cart.Id" />
+                        <div class="form-group">
+                            <label asp-for="CurrentUser.FirstName"></label>
+                            <input asp-for="CurrentUser.FirstName" type="text" class="form-control" placeholder="Firstname">
+                            <span class="text-danger" asp-validation-for="CurrentUser.FirstName"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CurrentUser.LastName"></label>
+                            <input asp-for="CurrentUser.LastName" type="text" class="form-control" placeholder="Lastname">
+                            <span class="text-danger" asp-validation-for="CurrentUser.LastName"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CurrentUser.ShippingAddress"></label>
+                            <input asp-for="CurrentUser.ShippingAddress" type="text" class="form-control" placeholder="Address">
+                            <span class="text-danger" asp-validation-for="CurrentUser.ShippingAddress"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CurrentUser.ShippingCity"></label>
+                            <input asp-for="CurrentUser.ShippingCity" type="text" class="form-control" placeholder="City">
+                            <span class="text-danger" asp-validation-for="CurrentUser.ShippingCity"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CurrentUser.ShippingZip"></label>
+                            <input asp-for="CurrentUser.ShippingZip" type="text" class="form-control" placeholder="Zip">
+                            <span class="text-danger" asp-validation-for="CurrentUser.ShippingZip"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="CurrentUser.HomeEmail"></label>
+                            <input asp-for="CurrentUser.HomeEmail" type="email" class="form-control" placeholder="Email">
+                            <span class="text-danger" asp-validation-for="CurrentUser.HomeEmail"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CurrentUser.HomePhone"></label>
+                            <input asp-for="CurrentUser.HomePhone" type="text" class="form-control" placeholder="Phone">
+                            <span class="text-danger" asp-validation-for="CurrentUser.HomePhone"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CurrentUser.CardNumber"></label>
+                            <input asp-for="CurrentUser.CardNumber" type="text" class="form-control" placeholder="Card number">
+                            <span class="text-danger" asp-validation-for="CurrentUser.CardNumber"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="CurrentUser.ExpirationMonth"></label>
+                                    <input asp-for="CurrentUser.ExpirationMonth" type="text" class="form-control" placeholder="Expiration month">
+                                    <span class="text-danger" asp-validation-for="CurrentUser.ExpirationMonth"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="CurrentUser.ExpirationYear"></label>
+                                    <input asp-for="CurrentUser.ExpirationYear" type="text" class="form-control" placeholder="Expiration year">
+                                    <span class="text-danger" asp-validation-for="CurrentUser.ExpirationYear"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="CurrentUser.CVS"></label>
+                                    <input asp-for="CurrentUser.CVS" type="text" class="form-control" placeholder="CVS">
+                                    <span class="text-danger" asp-validation-for="CurrentUser.CVS"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer">
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-success">Pay</button>
+                </div>
+                <a class="btn btn-default" asp-controller="Cart" asp-action="ViewCart">Back</a>
+            </div>
+        </form>
+    </div>
+</section>

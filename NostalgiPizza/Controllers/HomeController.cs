@@ -41,13 +41,10 @@ namespace NostalgiPizza.Controllers
             return View(model);
         }
 
-        public ActionResult LogInOrRegister()
+        public ActionResult LogIn()
         {
-            var model = new LoginOrRegisterViewModel
-            {
-                LogInViewModel = new LogInViewModel(),
-                RegisterViewModel = new RegisterViewModel()
-            };
+            var model = new LogInViewModel();
+            
             return View(model);
         }
 
@@ -62,14 +59,8 @@ namespace NostalgiPizza.Controllers
                     return RedirectToAction("Index");
                 }
             }
-
-            var model = new LoginOrRegisterViewModel
-            {
-                LogInViewModel = logIn,
-                RegisterViewModel = new RegisterViewModel()
-            };
-
-            return View("LogInOrRegister", model);
+            
+            return View(logIn);
         }
 
         public async Task<IActionResult> LogOut()
@@ -77,6 +68,13 @@ namespace NostalgiPizza.Controllers
             await _signInManager.SignOutAsync();
 
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Register()
+        {
+            var model = new RegisterViewModel();
+
+            return View(model);
         }
 
         [HttpPost]
@@ -103,12 +101,8 @@ namespace NostalgiPizza.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            var model = new LoginOrRegisterViewModel
-            {
-                LogInViewModel = new LogInViewModel(),
-                RegisterViewModel = register
-            };
-            return View("LogInOrRegister", model);
+
+            return View(register);
         }
 
         public IActionResult Details()

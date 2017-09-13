@@ -9,5 +9,6 @@ namespace NostalgiPizza.Models
     {
         public ApplicationUser CurrentUser { get; set; }
         public Cart Cart { get; set; }
+        public int Total { get; set; }
     }
 }

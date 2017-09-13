@@ -1,10 +1,73 @@
 ﻿@model NostalgiPizza.Models.EditViewModel
 
 @{
-    Layout = "_EditLayout";
+    Layout = "_LTELayout";
 }
 
-<div class="edit-page">
+@*<section class="content-header">
+        <h1>
+
+        </h1>
+    </section>*@
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Edit dish</h3>
+                </div>
+                <form asp-action="Edit" method="post">
+                    <div class="box-body">
+                        <input type="hidden" asp-for="@Model.Id" />
+                        <div class="form-group">
+                            <label asp-for="@Model.CategoryList"></label>
+                            <select class="form-control" asp-for="@Model.CategoryId" asp-items="@Model.CategoryList"></select>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Name"></label>
+                            <input asp-for="@Model.Name" type="text" class="form-control" placeholder="Name">
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Price"></label>
+                            <input asp-for="@Model.Price" type="text" class="form-control" placeholder="Name">
+                        </div>
+                        <div class="form-group">
+                            @for (var di = 0; di < Model.DishIngredients.Count; di++)
+                            {
+                                <div class="checkbox">
+                                    <label class="no-padding" asp-for="@Model.DishIngredients[di].Ingredient.Enable">
+                                        <input type="checkbox" asp-for="@Model.DishIngredients[di].Ingredient.Enable" checked>
+                                        @Model.DishIngredients[di].Ingredient.Name
+                                    </label>
+                                    <input type="hidden" asp-for="@Model.DishIngredients[di].Ingredient.Name"/>
+                                    <input type="hidden" asp-for="@Model.DishIngredients[di].Ingredient.Id"/>
+                                </div>
+                            }
+                            @for (var di = 0; di < Model.AllIngredients.Count; di++)
+                            {
+                                <div class="checkbox">
+                                    <label class="no-padding" asp-for="@Model.AllIngredients[di].Enable">
+                                        <input type="checkbox" asp-for="@Model.AllIngredients[di].Enable">
+                                        @Model.AllIngredients[di].Name
+                                    </label>
+                                    <input type="hidden" asp-for="@Model.AllIngredients[di].Name" />
+                                    <input type="hidden" asp-for="@Model.AllIngredients[di].Id" />
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <a class="btn btn-default" asp-controller="Home" asp-action="Details">Back</a>
+                        <button type="submit" class="btn btn-primary pull-right">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+@*<div class="edit-page">
     <div class="form">
         <form asp-action="Edit" method="post">
             <input asp-for="@Model.Name" placeholder="name" />
@@ -37,4 +100,4 @@
             <button type="submit">save</button>
         </form>
     </div>
-</div>
+</div>*@
