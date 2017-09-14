@@ -21,8 +21,7 @@
                     <th class="text-center">Quantity</th>
                     <th>Dish</th>
                     <th>Ingredients</th>
-                    <th class="text-center">Price</th>
-                    <th></th>
+                    <th class="text-center" style="width: 10%">Price</th>
                 </tr>
                 @foreach (var cartItem in Model.Cart.CartItems)
                 {
@@ -40,7 +39,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>Total: @Model.Total</td>
+                    <td>Total: @Model.Total kr</td>
                 </tr>
             </table>
         </div>

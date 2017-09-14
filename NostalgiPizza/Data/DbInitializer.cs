@@ -53,27 +53,27 @@ namespace NostalgiPizza.Data
             if (!context.Dishes.Any())
             {
                 //Ingredients
-                var groundBeef = new Ingredient { Name = "ground beef" };
-                var crispyRasherBacon = new Ingredient { Name = "crispy rasher bacon" };
-                var mushroom = new Ingredient { Name = "mushroom" };
-                var pepperoni = new Ingredient { Name = "pepperoni" };
-                var italianSausage = new Ingredient { Name = "italian sausage" };
-                var freshBabySpinach = new Ingredient { Name = "fresh baby spinach" };
-                var smokedLegHam = new Ingredient { Name = "smoked leg ham" };
-                var pineapple = new Ingredient { Name = "pineapple" };
-                var toppedWithOregano = new Ingredient { Name = "topped with oregano" };
-                var tomatoCapsicumSauce = new Ingredient { Name = "tomato capsicum sauce" };
-                var springOnion = new Ingredient { Name = "spring onion" };
-                var toppedWithHickoryBBQSauce = new Ingredient { Name = "topped with Hickory BBQ sauce" };
-                var succulentChicken = new Ingredient { Name = "succulent chicken" };
-                var porkAndFennelSausage = new Ingredient { Name = "pork & fennel sausage" };
-                var lotsOfStretchyMozzarellaCheese = new Ingredient { Name = "lots of stretchy mozzarella cheese" };
-                var redOnion = new Ingredient { Name = "red onion" };
-                var lateHarvestJalapenos = new Ingredient { Name = "late harvest jalapenos" };
-                var BBQSauceBase = new Ingredient { Name = "BBQ sauce base" };
-                var freshTomato = new Ingredient { Name = "fresh tomato" };
-                var toppedWithChilliFlakes = new Ingredient { Name = "topped with chilli flakes" };
-                var toppedWithMayonnaise = new Ingredient { Name = "topped with mayonnaise" };
+                var groundBeef = new Ingredient { Name = "ground beef", Price = 5};
+                var crispyRasherBacon = new Ingredient { Name = "crispy rasher bacon", Price = 5 };
+                var mushroom = new Ingredient { Name = "mushroom", Price = 5 };
+                var pepperoni = new Ingredient { Name = "pepperoni", Price = 5 };
+                var italianSausage = new Ingredient { Name = "italian sausage", Price = 5 };
+                var freshBabySpinach = new Ingredient { Name = "fresh baby spinach", Price = 5 };
+                var smokedLegHam = new Ingredient { Name = "smoked leg ham", Price = 5 };
+                var pineapple = new Ingredient { Name = "pineapple", Price = 5 };
+                var toppedWithOregano = new Ingredient { Name = "topped with oregano", Price = 5 };
+                var tomatoCapsicumSauce = new Ingredient { Name = "tomato capsicum sauce", Price = 5 };
+                var springOnion = new Ingredient { Name = "spring onion", Price = 5 };
+                var toppedWithHickoryBBQSauce = new Ingredient { Name = "topped with Hickory BBQ sauce", Price = 5 };
+                var succulentChicken = new Ingredient { Name = "succulent chicken", Price = 5 };
+                var porkAndFennelSausage = new Ingredient { Name = "pork & fennel sausage", Price = 5 };
+                var lotsOfStretchyMozzarellaCheese = new Ingredient { Name = "lots of stretchy mozzarella cheese", Price = 5 };
+                var redOnion = new Ingredient { Name = "red onion", Price = 5 };
+                var lateHarvestJalapenos = new Ingredient { Name = "late harvest jalapenos", Price = 5 };
+                var BBQSauceBase = new Ingredient { Name = "BBQ sauce base", Price = 5 };
+                var freshTomato = new Ingredient { Name = "fresh tomato", Price = 5 };
+                var toppedWithChilliFlakes = new Ingredient { Name = "topped with chilli flakes", Price = 5 };
+                var toppedWithMayonnaise = new Ingredient { Name = "topped with mayonnaise", Price = 5 };
 
                 //Dishes
                 var loadedSupreme = new Dish { Name = "Loaded Supreme", Price = 120 };

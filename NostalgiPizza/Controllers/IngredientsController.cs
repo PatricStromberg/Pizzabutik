@@ -29,7 +29,8 @@ namespace NostalgiPizza.Controllers
 
             var newIngredient = new Ingredient
             {
-                Name = model.NewName
+                Name = model.NewName,
+                Price = model.Price
             };
 
             _applicationDbContext.Add(newIngredient);
@@ -55,7 +56,8 @@ namespace NostalgiPizza.Controllers
             var model = new EditViewModel
             {
                 Id = ingredient.Id,
-                Name = ingredient.Name
+                Name = ingredient.Name,
+                Price = ingredient.Price
             };
 
             return View(model);
@@ -69,6 +71,7 @@ namespace NostalgiPizza.Controllers
             var ingredient = _applicationDbContext.Ingredients.SingleOrDefault(i => i.Id == model.Id);
 
             ingredient.Name = model.Name;
+            ingredient.Price = model.Price;
 
             //_applicationDbContext.Update(ingredient);
             _applicationDbContext.SaveChanges();

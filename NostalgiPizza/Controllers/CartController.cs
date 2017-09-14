@@ -35,6 +35,12 @@ namespace NostalgiPizza.Controllers
                 .ThenInclude(ci => ci.Ingredient)
                 .FirstOrDefault(x => x.Id.Equals(cartId));
 
+            foreach (var cartItem in cart.CartItems)
+            {
+                cartItem.Dish.Price += cartItem.CartItemIngredients.Sum(cii => cii.IngredientPrice);
+                _applicationDbContext.SaveChanges();
+            }
+            
             return View(cart);
         }
 
@@ -103,7 +109,8 @@ namespace NostalgiPizza.Controllers
                 var cartItemIngredient = new CartItemIngredient
                 {
                     CartItem = cartItem,
-                    IngredientId = enableIngredient.Id
+                    IngredientId = enableIngredient.Id,
+                    IngredientPrice = enableIngredient.Price
                 };
                 cartItem.CartItemIngredients.Add(cartItemIngredient);
             }
@@ -166,7 +173,8 @@ namespace NostalgiPizza.Controllers
                     var cartItemIngredient = new CartItemIngredient
                     {
                         CartItem = cartItem,
-                        IngredientId = enableIngredient.Id
+                        IngredientId = enableIngredient.Id,
+                        IngredientPrice = enableIngredient.Price
                     };
                     cartItem.CartItemIngredients.Add(cartItemIngredient);
                 }

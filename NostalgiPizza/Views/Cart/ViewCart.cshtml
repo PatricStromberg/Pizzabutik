@@ -29,6 +29,7 @@
 
                     var ingredientsList = cartItem.CartItemIngredients.Select(ci => ci.Ingredient.Name).ToList();
                     var result = string.Join(", ", ingredientsList.Take(ingredientsList.Count - 1)) + (ingredientsList.Count <= 1 ? "" : " & ") + ingredientsList.LastOrDefault();
+                    
                     <tr>
                         <td class="text-center">@cartItem.Quantity</td>
                         <td>@cartItem.Dish.Name</td>

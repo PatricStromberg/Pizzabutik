@@ -25,6 +25,10 @@
                             <input asp-for="@Model.Name" type="text" class="form-control" placeholder="Name">
                             <input type="hidden" asp-for="@Model.Id" />
                         </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Price"></label>
+                            <input asp-for="@Model.Price" type="text" class="form-control" placeholder="Price">
+                        </div>
                     </div>
                     <div class="box-footer">
                         <a class="btn btn-default" asp-controller="Home" asp-action="Details">Back</a>

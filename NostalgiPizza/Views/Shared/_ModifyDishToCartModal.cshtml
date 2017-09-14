@@ -28,10 +28,11 @@
         {
             <div class="checkbox">
                 <label asp-for="@Model.AllIngredients[ai].Enable">
-                    <input type="checkbox" asp-for="@Model.AllIngredients[ai].Enable"/>@Model.AllIngredients[ai].Name
+                    <input type="checkbox" asp-for="@Model.AllIngredients[ai].Enable"/>@Model.AllIngredients[ai].Name (+@Model.AllIngredients[ai].Price kr)
                 </label>
                 <input type="hidden" asp-for="@Model.AllIngredients[ai].Name"/>
                 <input type="hidden" asp-for="@Model.AllIngredients[ai].Id"/>
+                <input type="hidden" asp-for="@Model.AllIngredients[ai].Price"/>
             </div>
         }
     </div>
