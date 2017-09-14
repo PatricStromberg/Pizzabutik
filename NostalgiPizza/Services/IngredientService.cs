@@ -8,11 +8,11 @@ using NostalgiPizza.Models;
 
 namespace NostalgiPizza.Services
 {
-    public class IngredientsService
+    public class IngredientService
     {
         private readonly ApplicationDbContext _applicationDbContext;
 
-        public IngredientsService(ApplicationDbContext applicationDbContext)
+        public IngredientService(ApplicationDbContext applicationDbContext)
         {
             _applicationDbContext = applicationDbContext;
         }

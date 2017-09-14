@@ -35,12 +35,6 @@ namespace NostalgiPizza.Controllers
                 .ThenInclude(ci => ci.Ingredient)
                 .FirstOrDefault(x => x.Id.Equals(cartId));
 
-            foreach (var cartItem in cart.CartItems)
-            {
-                cartItem.Dish.Price += cartItem.CartItemIngredients.Sum(cii => cii.IngredientPrice);
-                _applicationDbContext.SaveChanges();
-            }
-            
             return View(cart);
         }
 
@@ -90,6 +84,7 @@ namespace NostalgiPizza.Controllers
             {
                 CartId = cart.Id,
                 DishId = model.Dish.Id,
+                Dish = _applicationDbContext.Dishes.Include(d => d.DishIngredients).ThenInclude(di => di.Ingredient).FirstOrDefault(d => d.Id == model.Dish.Id),
                 CartItemIngredients = new List<CartItemIngredient>(),
                 Quantity = 1
             };
@@ -117,6 +112,8 @@ namespace NostalgiPizza.Controllers
 
             cart.CartItems.Add(cartItem);
 
+            cartItem.Dish.Price += cartItem.CartItemIngredients.Sum(cii => cii.IngredientPrice);
+            
             _applicationDbContext.SaveChanges();
 
             return RedirectToAction("Index", "Home", new { backToMenu = true });
@@ -148,6 +145,9 @@ namespace NostalgiPizza.Controllers
             var cartItem = _applicationDbContext.CartItems
                 .Include(ci => ci.CartItemIngredients)
                 .ThenInclude(cii => cii.Ingredient)
+                .Include(ci => ci.Dish)
+                .ThenInclude(d => d.DishIngredients)
+                .ThenInclude(di => di.Ingredient)
                 .FirstOrDefault(ci => ci.Id.Equals(model.CartItem.Id));
 
             _applicationDbContext.CartItemIngredients.RemoveRange(cartItem.CartItemIngredients);
@@ -179,7 +179,10 @@ namespace NostalgiPizza.Controllers
                     cartItem.CartItemIngredients.Add(cartItemIngredient);
                 }
             }
+
+            cartItem.Dish.Price += cartItem.CartItemIngredients.Sum(cii => cii.IngredientPrice);
             
+
 
             _applicationDbContext.SaveChanges();
 

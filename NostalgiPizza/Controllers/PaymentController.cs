@@ -36,11 +36,6 @@ namespace NostalgiPizza.Controllers
                 .ThenInclude(ci => ci.Dish)
                 .FirstOrDefault(c => c.Id.Equals(id));
 
-            foreach (var cartItem in cart.CartItems)
-            {
-                cartItem.Dish.Price += cartItem.CartItemIngredients.Sum(cii => cii.IngredientPrice);
-            }
-
             var total = cart.CartItems.Sum(x => x.Dish.Price);
 
             var model = new PaymentViewModel
