@@ -113,10 +113,14 @@ namespace NostalgiPizza.Controllers
             cart.CartItems.Add(cartItem);
 
             cartItem.Dish.Price += cartItem.CartItemIngredients.Sum(cii => cii.IngredientPrice);
+
+            var cartCount = cart.CartItems.Count;
+
+            HttpContext.Session.SetInt32("CartCount", cartCount);
             
             _applicationDbContext.SaveChanges();
 
-            return RedirectToAction("Index", "Home", new { backToMenu = true });
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult EditCartItem(int id)
@@ -181,8 +185,6 @@ namespace NostalgiPizza.Controllers
             }
 
             cartItem.Dish.Price += cartItem.CartItemIngredients.Sum(cii => cii.IngredientPrice);
-            
-
 
             _applicationDbContext.SaveChanges();
 
@@ -192,6 +194,11 @@ namespace NostalgiPizza.Controllers
         public IActionResult DeleteCartItem(int id)
         {
             var cartItem = _applicationDbContext.CartItems.FirstOrDefault(x => x.Id.Equals(id));
+
+            var cartCount = HttpContext.Session.GetInt32("CartCount") - 1;
+
+
+            HttpContext.Session.SetInt32("CartCount", (int) cartCount);
 
             _applicationDbContext.CartItems.Remove(cartItem);
             _applicationDbContext.SaveChanges();

@@ -1,83 +1,47 @@
 ﻿@using System.Linq
 @model NostalgiPizza.Models.StartViewModel
 
-<section id="menu">
+<section class="content-header">
+    <h1>
+        Menu
+        <small>Categories</small>
+    </h1>
+</section>
+
+<section class="content">
     @foreach (var c in Model.Categories)
     {
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2 class="section-heading">@c.Name</h2>
-                    <hr class="primary">
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
+        <h2 class="page-header">@c.Name</h2>
+        <div class="row">
                 @foreach (var d in c.Dishes)
                 {
-                    <div class="col-lg-4 col-md-6 text-center">
-                        <div class="service-box">
-                            <h3>@d.Name</h3>
-                            <p class="text-muted">
-                                @{
-                                    var ingredientsList = new List<string>();
-                                    foreach (var di in d.DishIngredients)
-                                    {
-                                        ingredientsList.Add(di.Ingredient.Name);
+                    <div class="col-md-6">
+                        <div class="small-box bg-yellow">
+                            <div class="inner">
+                                <h3>@d.Name</h3>
+                                <p>
+                                    @{
+                                        var ingredientsList = d.DishIngredients.Select(di => di.Ingredient.Name).ToList();
+                                        var result = string.Join(", ", ingredientsList.Take(ingredientsList.Count - 1)) + (ingredientsList.Count <= 1 ? "" : " & ") + ingredientsList.LastOrDefault();
                                     }
-                                    var result = string.Join(", ", ingredientsList.Take(ingredientsList.Count - 1)) + (ingredientsList.Count <= 1 ? "" : " & ") + ingredientsList.LastOrDefault();
-                                }
-                                @result
-                            </p>
-                            <a asp-action="AddToCart" asp-controller="Cart" asp-route-id="@d.Id" data-target="#modifyDishModal" data-toggle="modal"><i class="fa fa-shopping-basket text-primary sr-icons"></i></a>
+                                    @result
+                                </p>
+                            </div>
+                            <a class="small-box-footer" asp-action="AddToCart" asp-controller="Cart" asp-route-id="@d.Id" data-target="#modifyDishModal" data-toggle="modal">
+                                @d.Price kr <i class="fa fa-shopping-basket"></i>
+                            </a>
                         </div>
                     </div>
                 }
-            </div>
         </div>
     }
     <!-- Modal -->
     <div class="modal fade" id="modifyDishModal" tabindex="-1" role="dialog" aria-labelledby="modifyDishModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
 
             </div>
         </div>
     </div>
 </section>
-
-<section class="bg-primary" id="contact">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto text-center">
-                <h2 class="section-heading text-white">Let's Get In Touch!</h2>
-                <hr class="light">
-                <p class="text-faded">Sed tristique quis sem non facilisis. Integer sed nisi et nibh finibus finibus et nec nunc. Nunc auctor posuere nisl a iaculis. Fusce sagittis elit eu elit pharetra luctus.</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-4 ml-auto text-center text-faded">
-                <i class="fa fa-phone fa-3x sr-contact"></i>
-                <p>123-456-6789</p>
-            </div>
-            <div class="col-lg-4 mr-auto text-center text-faded">
-                <i class="fa fa-envelope-o fa-3x sr-contact"></i>
-                <p class="text-faded">
-                    info@nostalgipizza.com
-                </p>
-            </div>
-        </div>
-    </div>
-</section>
-
-@section script{
-    <script>
-        $(document).ready(function () {
-            var anchor = document.getElementById('@Model.BackToMenu');
-            anchor.scrollIntoView(true);
-        });
-    </script>
-}
-
 

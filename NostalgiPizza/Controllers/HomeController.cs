@@ -22,7 +22,7 @@ namespace NostalgiPizza.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index(bool backToMenu = false)
+        public IActionResult Index()
         {
             var categories = _applicationDbContext.Categories.Include(c => c.Dishes)
                 .ThenInclude(d => d.DishIngredients)
@@ -34,10 +34,6 @@ namespace NostalgiPizza.Controllers
                 Categories = categories
             };
 
-            if (backToMenu)
-            {
-                model.BackToMenu = "menu";
-            }
             return View(model);
         }
 
@@ -46,6 +42,11 @@ namespace NostalgiPizza.Controllers
             var model = new LogInViewModel();
             
             return View(model);
+        }
+
+        public IActionResult Contact()
+        {
+            return View();
         }
 
         [HttpPost]
