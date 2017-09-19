@@ -1,7 +1,10 @@
 using System;
+using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using NostalgiPizza.Controllers;
 using NostalgiPizza.Data;
+using NostalgiPizza.Models;
 using NostalgiPizza.Services;
 using Xunit;
 
@@ -23,17 +26,28 @@ namespace PizzaTests
                 .UseInMemoryDatabase("Pizzadatabas")
                 .UseInternalServiceProvider(efServiceProvider));
             services.AddTransient<IngredientService>();
+            services.AddTransient<IngredientsController>();
 
             _serviceProvider = services.BuildServiceProvider();
         }
 
         [Fact]
-        public void All_Are_Sorted()
+        public void All_Ingredients()
         {
-            //var _ingredients = _serviceProvider.GetService<IngredientService>();
-            //var ings = _ingredients.All();
+            var context = _serviceProvider.GetService<ApplicationDbContext>();
 
-            //Assert.Equal(ings.Count, 0);
+            var service = _serviceProvider.GetService<IngredientService>();
+            var ingredients = service.All();
+
+            Assert.Collection(ingredients);
         }
+
+        [Fact]
+        public void agag()
+        {
+            
+        }
+
+
     }
 }
