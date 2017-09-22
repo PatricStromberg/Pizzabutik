@@ -12,7 +12,7 @@ namespace NostalgiPizza.Data
         public ApplicationDbContext CreateDbContext(string[] args)
         {
             var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            builder.UseSqlServer("{your connection string}");
+            builder.UseSqlServer("Server=tcp:nostalgipizza.database.windows.net,1433;Initial Catalog=NostalgiPizza_db;Persist Security Info=False;User ID=patricstromberg;Password=Grekland123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             var db = new ApplicationDbContext(builder.Options);
             return db;
         }

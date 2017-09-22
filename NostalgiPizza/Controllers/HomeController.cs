@@ -92,7 +92,8 @@ namespace NostalgiPizza.Controllers
                     ShippingAddress = register.ShippingAddress,
                     ShippingCity = register.ShippingCity,
                     ShippingZip = register.ShippingZip,
-                    HomePhone = register.HomePhone
+                    HomePhone = register.HomePhone,
+                    HomeEmail = register.Email
                 };
 
                 var userResult = await _userManager.CreateAsync(newRegister, register.Password);
